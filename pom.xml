@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ca.mcmaster.cas735.group2</groupId>
+  <artifactId>pac</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>parking-access-control</name>
+  <packaging>pom</packaging>
+
+  <description>Global POM listing all maven-dependent services</description>
+
+  <modules>
+    <!-- Infrastructure services -->
+    <module>infrastructure/service-registry</module>
+    <!-- Business Services -->
+<!--    <module>services/entry-gate</module>-->
+  </modules>
+</project>
