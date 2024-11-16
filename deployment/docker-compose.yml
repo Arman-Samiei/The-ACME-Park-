@@ -1,0 +1,39 @@
+include:
+  - ./../infrastructure/docker-compose.yml
+
+services:
+  entry-gate:
+    container_name: entry-gate
+    build:
+      context: ../services/entry-gate
+    ports:
+      - "9080:9080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
+  exit-gate:
+    container_name: exit-gate
+    build:
+      context: ../services/exit-gate
+    ports:
+      - "9080:9080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
+#  clients:
+#    container_name: clients
+#    build:
+#      context: ../clients
+#    depends_on:
+#      rabbitmq:
+#        condition: service_healthy
+#    volumes:
+#      - ../clients:/gateActivity.py
+#    profiles:
+#      - manual
