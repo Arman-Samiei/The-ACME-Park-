@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: entry-gate
+  rabbitmq:
+    username: admin
+    password: cas735
+
+logging.level:
+  ca.mcmaster.cas735.group2.entry-gate:
+    adapter:  INFO
+    business: INFO
+
+server:
+  port: 9080
+
+app:
+  exchange: pac.exchange
+
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+      base-path: /actuator
+
+info:
+  application:
+    description: '@project.description@'
+    version:     '@project.version@'
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true

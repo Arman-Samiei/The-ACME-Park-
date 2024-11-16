@@ -14,6 +14,7 @@
     <!-- Infrastructure services -->
     <module>infrastructure/service-registry</module>
     <!-- Business Services -->
-<!--    <module>services/entry-gate</module>-->
+    <module>services/entry-gate</module>
+    <module>services/exit-gate</module>
   </modules>
 </project>
