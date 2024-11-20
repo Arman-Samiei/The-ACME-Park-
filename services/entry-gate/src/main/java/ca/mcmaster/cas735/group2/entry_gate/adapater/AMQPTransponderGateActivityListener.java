@@ -31,7 +31,7 @@ public class AMQPTransponderGateActivityListener implements TransponderGateActiv
 
     // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "gate.activity.queue", durable = "true"),
+            value = @Queue(value = "gate.entry.activity.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "gate.transponder.request"))
