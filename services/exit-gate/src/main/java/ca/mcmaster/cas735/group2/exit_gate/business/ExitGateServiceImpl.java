@@ -1,24 +1,63 @@
 package ca.mcmaster.cas735.group2.exit_gate.business;
 
-import ca.mcmaster.cas735.group2.exit_gate.dto.TransponderVoucherGateActionDTO;
+import ca.mcmaster.cas735.group2.exit_gate.dto.TransponderGateActionDTO;
 import ca.mcmaster.cas735.group2.exit_gate.dto.VisitorGateActionDTO;
+import ca.mcmaster.cas735.group2.exit_gate.dto.VoucherGateActionDTO;
+import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateTransponderExit;
+import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateVisitorExit;
+import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateVoucherExit;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class ParkingServiceImpl implements ParkingService {
+public class ExitGateServiceImpl implements ExitGateService {
 
-//    @Autowired TODO
-    public ParkingServiceImpl() {}
+    private final ValidateTransponderExit validateTransponderExit;
+    private final ValidateVoucherExit validateVoucherExit;
+    private final ValidateVisitorExit validateVisitorExit;
+
+    @Autowired
+    public ExitGateServiceImpl(ValidateTransponderExit validateTransponderExit,
+                               ValidateVoucherExit validateVoucherExit,
+                               ValidateVisitorExit validateVisitorExit) {
+        this.validateTransponderExit = validateTransponderExit;
+        this.validateVoucherExit = validateVoucherExit;
+        this.validateVisitorExit = validateVisitorExit;
+    }
 
     @Override
-    public void validateAndProcessGateAction(TransponderVoucherGateActionDTO transponderVoucherGateActionDTO) {
-        // TODO
+    public void validateAndProcessGateAction(TransponderGateActionDTO transponderGateActionDTO) {
+        validateTransponderExit.sendTransponderExitValidationRequest(transponderGateActionDTO.transponderId());
+    }
+
+    @Override
+    public void validateAndProcessGateAction(VoucherGateActionDTO voucherGateActionDTO) {
+        validateVoucherExit.sendVoucherExitValidationRequest(voucherGateActionDTO.voucherId());
     }
 
     @Override
     public void validateAndProcessGateAction(VisitorGateActionDTO visitorGateActionDTO) {
-        // TODO
+        VisitorGateActionDTO calculatedVisitorExit = calculatePaymentAmount(visitorGateActionDTO);
+        validateVisitorExit.sendVisitorExitValidationRequest(calculatedVisitorExit);
+    }
+    
+    private VisitorGateActionDTO calculatePaymentAmount(VisitorGateActionDTO visitorGateActionDTO) {
+        return new VisitorGateActionDTO(visitorGateActionDTO.qrId(),
+                visitorGateActionDTO.ccNumber(),
+                visitorGateActionDTO.ccExpiry(),
+                visitorGateActionDTO.ccCVC(),
+                10.5,
+                "VISITOR_EXIT");
+    }
+
+    @Override
+    public void processGateAction(boolean shouldOpen) {
+        if (shouldOpen) {
+            log.info("Exit Gate opened");
+        } else {
+            log.info("Exit Gate remained closed");
+        }
     }
 }

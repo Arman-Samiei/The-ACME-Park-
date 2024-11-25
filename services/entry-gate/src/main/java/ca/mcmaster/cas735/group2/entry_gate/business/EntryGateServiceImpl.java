@@ -38,15 +38,16 @@ public class EntryGateServiceImpl implements EntryGateService {
     public String validateAndProcessGateActionForVisitor() {
         String qrId = UUID.randomUUID().toString();
         // QR Code is generated and sent to the visitor, they can enter the gate
-        processGateAction(true, qrId);
+        processGateAction(true);
         return qrId;
     }
 
-    private void processGateAction(boolean shouldOpen, String id) {
+    @Override
+    public void processGateAction(boolean shouldOpen) {
         if (shouldOpen) {
-            log.info("Gate opened for {}", id);
+            log.info("Entry Gate opened");
         } else {
-            log.info("Gate remained closed for {}", id);
+            log.info("Entry Gate remained closed");
         }
     }
 }
