@@ -16,7 +16,7 @@ import lombok.Data;
 
     private String employeeID;
 
-    private String lotNumber;
+    private String lotID;
 }
 
 

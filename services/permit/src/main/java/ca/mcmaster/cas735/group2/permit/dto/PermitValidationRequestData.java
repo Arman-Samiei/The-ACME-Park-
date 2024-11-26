@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PermitValidationRequestData {
-    private String lotNumber;
+    private String lotID;
     private String transponderID;
 }
