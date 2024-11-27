@@ -30,7 +30,7 @@ public class PermitValidator implements PermitValidationRequest {
         String lotID = permitValidationRequestData.getLotID();
         PermitData permitData = database.findByTransponderID(transponderID);
         PermitValidationResponseData permitValidationResponseData;
-        if (permitData != null && Objects.equals(permitData.getLotID(), lotID))
+        if (permitData != null && Objects.equals(permitData.getLotID(), lotID) && Objects.equals(permitData.getStatus(), "issued") )
             permitValidationResponseData = new PermitValidationResponseData(true, "The permit is valid");
         else
             permitValidationResponseData = new PermitValidationResponseData(false, "The permit is not valid. FUCK OFF!");
