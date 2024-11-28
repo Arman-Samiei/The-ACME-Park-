@@ -8,7 +8,7 @@ import lombok.Data;
     @Id
     private String transponderID;
 
-    private String PlateNumber;
+    private String plateNumber;
 
     private String firstName;
 
@@ -18,7 +18,15 @@ import lombok.Data;
 
     private String lotID;
 
+    private String spotID;
+
     private String status;
+
+    private String paymentType;
+
+    private String customerType;
+
+    private String cardNumber;
 }
 
 
