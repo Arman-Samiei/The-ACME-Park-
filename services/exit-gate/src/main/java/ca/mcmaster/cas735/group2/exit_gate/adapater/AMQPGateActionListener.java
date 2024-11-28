@@ -25,8 +25,8 @@ public class AMQPGateActionListener implements GateAction {
     }
 
     @Override
-    public void handleGateAction(boolean shouldOpen) {
-        exitGateService.processGateAction(shouldOpen);
+    public void handleGateAction(GateActionDTO gateActionDTO) {
+        exitGateService.processGateAction(gateActionDTO.shouldOpen(), gateActionDTO.lot());
     }
 
     // TODO: Check if private works with @RabbitListener annotation
@@ -38,7 +38,7 @@ public class AMQPGateActionListener implements GateAction {
     private void receive(String data, Channel channel, long tag) {
         GateActionDTO gateActionDTO = convertToDTO(data);
         log.info("Received gate action: {} - with tag: {} - channel: {}", gateActionDTO, tag, channel);
-        handleGateAction(gateActionDTO.shouldOpen());
+        handleGateAction(gateActionDTO);
     }
 
     private GateActionDTO convertToDTO(String data) {

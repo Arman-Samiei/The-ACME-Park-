@@ -8,5 +8,5 @@ public interface EntryGateService {
     void validateAndProcessGateAction(TransponderGateActionDTO transponderGateActionDTO);
     void validateAndProcessGateAction(VoucherGateActionDTO voucherGateActionDTO);
     String validateAndProcessGateActionForVisitor();
-    void processGateAction(boolean shouldOpen);
+    void processGateAction(boolean shouldOpen, String lot);
 }

@@ -3,6 +3,7 @@ package ca.mcmaster.cas735.group2.exit_gate.business;
 import ca.mcmaster.cas735.group2.exit_gate.dto.TransponderGateActionDTO;
 import ca.mcmaster.cas735.group2.exit_gate.dto.VisitorGateActionDTO;
 import ca.mcmaster.cas735.group2.exit_gate.dto.VoucherGateActionDTO;
+import ca.mcmaster.cas735.group2.exit_gate.ports.LotStatistics;
 import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateTransponderExit;
 import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateVisitorExit;
 import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateVoucherExit;
@@ -17,14 +18,17 @@ public class ExitGateServiceImpl implements ExitGateService {
     private final ValidateTransponderExit validateTransponderExit;
     private final ValidateVoucherExit validateVoucherExit;
     private final ValidateVisitorExit validateVisitorExit;
+    private final LotStatistics lotStatistics;
 
     @Autowired
     public ExitGateServiceImpl(ValidateTransponderExit validateTransponderExit,
                                ValidateVoucherExit validateVoucherExit,
-                               ValidateVisitorExit validateVisitorExit) {
+                               ValidateVisitorExit validateVisitorExit,
+                               LotStatistics lotStatistics) {
         this.validateTransponderExit = validateTransponderExit;
         this.validateVoucherExit = validateVoucherExit;
         this.validateVisitorExit = validateVisitorExit;
+        this.lotStatistics = lotStatistics;
     }
 
     @Override
@@ -53,9 +57,10 @@ public class ExitGateServiceImpl implements ExitGateService {
     }
 
     @Override
-    public void processGateAction(boolean shouldOpen) {
+    public void processGateAction(boolean shouldOpen, String lot) {
         if (shouldOpen) {
             log.info("Exit Gate opened");
+            lotStatistics.updateExitLotStatistics(lot);
         } else {
             log.info("Exit Gate remained closed");
         }
