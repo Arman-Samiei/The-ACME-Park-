@@ -1,17 +1,24 @@
 spring:
   application:
-    name: exit-gate
+    name: payment-service
+    datasource:
+      username: sa
+      password: password
+      driverClassName: org.h2.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      defer-datasource-initialization: true
   rabbitmq:
     username: admin
     password: cas735
 
 logging.level:
-  ca.mcmaster.cas735.group2.exit-gate:
+  ca.mcmaster.cas735.group2.payment-service:
     adapter:  INFO
     business: INFO
 
 server:
-  port: 9081
+  port: 9082
 
 app:
   exchange: pac.exchange

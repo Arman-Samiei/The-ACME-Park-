@@ -1,4 +1,4 @@
-package ca.mcmaster.cas735.group2.exit_gate.dto;
+package ca.mcmaster.cas735.group2.payment_service.dto;
 
 public record GateActionDTO(
         boolean shouldOpen,

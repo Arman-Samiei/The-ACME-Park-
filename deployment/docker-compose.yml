@@ -19,7 +19,23 @@ services:
     build:
       context: ../services/exit-gate
     ports:
-      - "9080:9080"
+      - "9081:9081"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
+  payment-service:
+    container_name: payment-service
+    build:
+      context: ../services/payment-service
+    ports:
+      - "9082:9082"
+    volumes:
+      - type: bind
+        source: ${PWD}/data
+        target: /data
     depends_on:
       rabbitmq:
         condition: service_healthy
