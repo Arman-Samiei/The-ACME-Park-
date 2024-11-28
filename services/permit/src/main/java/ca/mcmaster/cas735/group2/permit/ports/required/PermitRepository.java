@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PermitRepository extends JpaRepository<PermitData, String> {
     public PermitData findByTransponderID(String transponderID);
+    public PermitData findByPlateNumber(String plateNumber);
 }
