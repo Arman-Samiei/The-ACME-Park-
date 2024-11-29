@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
 public class PermitLotRequestData {
     String lotID;
     String customerType;
-    String transponderID;
-    String employeeID;
+    String plateNumber;
+    String spotReservationStatus;
 
-    public PermitLotRequestData(PermitData permitData) {
+    String requestSender = "permit";
+
+    public PermitLotRequestData(PermitData permitData, String spotReservationStatus) {
         this.lotID = permitData.getLotID();
         this.customerType = permitData.getCustomerType();
-        this.transponderID = permitData.getTransponderID();
-        this.employeeID = permitData.getEmployeeID();
+        this.plateNumber = permitData.getPlateNumber();
+        this.spotReservationStatus = spotReservationStatus;
     }
 }

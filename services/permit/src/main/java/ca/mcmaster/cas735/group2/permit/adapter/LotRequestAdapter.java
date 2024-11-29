@@ -27,7 +27,7 @@ public class LotRequestAdapter implements LotRequest {
     @Override
     public void requestSpot(PermitLotRequestData permitLotRequestData) {
         log.debug("Sending message to {}: {}", exchange, permitLotRequestData);
-        rabbitTemplate.convertAndSend(exchange, "permit.lot.request", translate(permitLotRequestData));
+        rabbitTemplate.convertAndSend(exchange, "spot.availability.request", translate(permitLotRequestData));
     }
 
 

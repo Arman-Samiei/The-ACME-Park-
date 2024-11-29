@@ -47,20 +47,21 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
             return;
         }
         database.saveAndFlush(permitData);
-        lotRequest.requestSpot(new PermitLotRequestData(permitData));
+        lotRequest.requestSpot(new PermitLotRequestData(permitData, "pending"));
     }
 
     @Override
     public void reserveSpot(PermitLotResponseData permitLotResponseData) {
-        String transponderID = permitLotResponseData.getTransponderID();
+        String plateNumber = permitLotResponseData.getPlateNumber();
         String spotID = permitLotResponseData.getSpotID();
         String lotID = permitLotResponseData.getLotID();
+        PermitData permitData = database.findByPlateNumber(plateNumber);
         if (spotID.isEmpty()) {
-            String response = String.format("There is no space left for %s at lot %s.", transponderID, lotID);
+            String response = String.format("There is no space left for %s at lot %s.", plateNumber, lotID);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
+            database.delete(permitData);
             return;
         }
-        PermitData permitData = database.findByTransponderID(transponderID);
         permitData.setSpotID(spotID);
         database.saveAndFlush(permitData);
         paymentRequest.requestPayment(new PaymentRequestData(permitData.getPlateNumber()));
@@ -73,12 +74,16 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         if (!wasSuccessful) {
             String response = String.format("payment unsuccessful for %s", permitData.getTransponderID());
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
+            lotRequest.requestSpot(new PermitLotRequestData(permitData, "notConfirmed"));
+            database.delete(permitData);
             return;
         }
         permitData.setStatus("issued");
         database.saveAndFlush(permitData);
         String response = String.format("permit successfully issued for %s", permitData.getTransponderID());
+        lotRequest.requestSpot(new PermitLotRequestData(permitData, "confirmed"));
         permitIssuanceResponse.sendPermitIssuanceResponse(response);
+
     }
 
 }
