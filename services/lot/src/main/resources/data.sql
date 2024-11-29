@@ -1,4 +1,4 @@
-INSERT INTO LotData (spotID, lotID, customerType, plateNumber, spotOccupationStatus, spotReservationStatus) VALUES
+INSERT INTO spots (SPOT_ID, LOT_ID, CUSTOMER_TYPE, PLATE_NUMBER, SPOT_OCCUPATION_STATUS, SPOT_RESERVATION_STATUS) VALUES
 -- Lot01 spots
 ('SPOT101', 'LOT01', 'student', NULL, 'free', 'notReserved'),
 ('SPOT102', 'LOT01', 'student', NULL, 'free', 'notReserved'),
