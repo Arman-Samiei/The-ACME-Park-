@@ -4,8 +4,6 @@ public final class Constants {
 
     private Constants() {}
 
-    public static final String FREE = "free";
-    public static final String OCCUPIED = "occupied";
     public static final String REQUEST_SENDER_PERMIT = "permit";
     public static final String SPOT_RESERVATION_STATUS_PENDING = "pending";
     public static final String SPOT_RESERVATION_STATUS_RESERVED = "reserved";

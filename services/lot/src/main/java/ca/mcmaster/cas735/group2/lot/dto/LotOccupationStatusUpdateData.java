@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor
 public class LotOccupationStatusUpdateData {
     String spotID;
-    String occupationStatus;
+    Boolean isSpotOccupied;
 }

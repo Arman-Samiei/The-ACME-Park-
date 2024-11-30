@@ -21,7 +21,7 @@ public class LotOccupation implements LotOccupationStatusUpdate {
     @Override
     public void updateSpotOccupationStatus(LotOccupationStatusUpdateData lotOccupationStatusUpdateData) {
         LotData lotData = database.findBySpotID(lotOccupationStatusUpdateData.getSpotID());
-        lotData.setSpotOccupationStatus(lotOccupationStatusUpdateData.getOccupationStatus());
+        lotData.setIsSpotOccupied(lotOccupationStatusUpdateData.getIsSpotOccupied());
         database.saveAndFlush(lotData);
     }
 }

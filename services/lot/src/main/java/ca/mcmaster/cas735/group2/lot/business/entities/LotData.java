@@ -10,13 +10,15 @@ import lombok.Data;
 @Data
 @Table(name = "spots")
 public class LotData {
-    @Id
     @Column(name = "SPOT_ID")
+    @Id
     String spotID;
     @Column(name = "LOT_ID")
     String lotID;
     String customerType;
     String plateNumber;
-    String spotOccupationStatus;
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    Boolean isSpotOccupied;
+    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'notReserved'")
     String spotReservationStatus;
 }
