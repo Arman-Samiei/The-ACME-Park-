@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: entry-gate
+
+  rabbitmq:
+    username: admin
+    password: cas735
+
+logging.level:
+  ca.mcmaster.cas735.samieia.entry_gate:
+    adapter:  INFO # DEBUG for fine-grained trace
+    business: INFO
+
+server:
+  port: 9080
+
+app:
+  custom:
+    mqtt:
+      port: 1883
+      topic: transponder
+    messaging:
+      inbound-exchange-topic: entry_gate.filter
+
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+      base-path: /actuator
+
+info:
+  application:
+    description: '@project.description@'
+    version:     '@project.version@'
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+  
