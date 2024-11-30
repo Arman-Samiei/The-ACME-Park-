@@ -1,8 +1,8 @@
 package ca.mcmaster.cas735.group2.payment_service.adapter;
 
 import ca.mcmaster.cas735.group2.payment_service.business.PaymentService;
-import ca.mcmaster.cas735.group2.payment_service.dto.PaymentResponseDTO;
-import ca.mcmaster.cas735.group2.payment_service.ports.PaymentResponse;
+import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
+import ca.mcmaster.cas735.group2.payment_service.ports.ReceiveFines;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -15,38 +15,38 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPPaymentResponseListener implements PaymentResponse {
+public class AMQPReceiveFinesListener implements ReceiveFines {
 
     private final PaymentService paymentService;
 
     @Autowired
-    public AMQPPaymentResponseListener(PaymentService paymentService) {
+    public AMQPReceiveFinesListener(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
     @Override
-    public void handlePaymentResponse(PaymentResponseDTO paymentResponseDTO) {
-        paymentService.comfirmOrderAndRoute(paymentResponseDTO);
+    public void receiveFineAmount(ExistingFinesDTO existingFinesDTO) {
+        paymentService.commitOrderAndRoute(existingFinesDTO);
     }
 
     // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "payment.activity.response", durable = "true"),
+            value = @Queue(value = "fines.payment.response", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "payment"))
+            key = "fines"))
     private void receive(String data, Channel channel, long tag) {
-        PaymentResponseDTO paymentResponseDTO = convertToDTO(data);
+        ExistingFinesDTO existingFinesDTO = convertToDTO(data);
 
-        log.info("Received payment response: {} - with tag: {} - channel: {}", paymentResponseDTO, tag, channel);
+        log.info("Received fines: {} - with tag: {} - channel: {}", existingFinesDTO, tag, channel);
 
-        handlePaymentResponse(paymentResponseDTO);
+        receiveFineAmount(existingFinesDTO);
     }
 
-    private PaymentResponseDTO convertToDTO(String data) {
+    private ExistingFinesDTO convertToDTO(String data) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(data, PaymentResponseDTO.class);
+            return objectMapper.readValue(data, ExistingFinesDTO.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

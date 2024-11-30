@@ -13,6 +13,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URISyntaxException;
+
 @Service
 @Slf4j
 public class AMQPPaymentListener implements PaymentActivity {
@@ -26,7 +28,7 @@ public class AMQPPaymentListener implements PaymentActivity {
 
     @Override
     public void receivePaymentActivity(PaymentRequestDTO paymentRequestDTO) {
-        paymentService.createOrderAndProcessPayment(paymentRequestDTO);
+        paymentService.createOrderAndDetermineFines(paymentRequestDTO);
     }
 
     // TODO: Check if private works with @RabbitListener annotation
