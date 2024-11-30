@@ -16,6 +16,9 @@
     <!-- Business Services -->
     <module>services/entry-gate</module>
     <module>services/exit-gate</module>
+    <module>services/lot</module>
     <module>services/payment-service</module>
+    <module>services/permit</module>
+    <module>services/voucher-service</module>
   </modules>
 </project>
