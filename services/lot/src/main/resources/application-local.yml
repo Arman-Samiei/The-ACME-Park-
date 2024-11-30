@@ -4,7 +4,7 @@
 spring:
   ## Data repository configuration
   datasource:
-    url: jdbc:h2:mem:mydb # in memory database when used locally
+    url: jdbc:h2:mem:lot_db # in memory database when used locally
   h2.console:
     enabled: true # expose database web UI for debugging purposes
 
