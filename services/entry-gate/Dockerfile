@@ -1,7 +1,25 @@
+# Stage 1: Build
+FROM maven:3.9.5-amazoncorretto-21 AS builder
+
+LABEL description="Build stage for the entry-gate microservice"
+
+WORKDIR /app
+
+COPY pom.xml .
+COPY src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Runtime
 FROM amazoncorretto:21-alpine
 
-ARG JAR_FILE=target/*.jar
+LABEL description="Runtime image for the entry-gate microservice"
 
-COPY ${JAR_FILE} app.jar
+EXPOSE 9080
 
-ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=docker", "/app.jar"]
+# Copy the JAR file from the build stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Set the entrypoint
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=docker", "/app.jar"]

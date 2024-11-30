@@ -70,21 +70,21 @@ services:
       service-registry:
         condition: service_healthy
 
-  voucher-service:
-    container_name: voucher-service
-    build:
-      context: ../services/voucher-service
-    ports:
-      - "9085:9085"
-    volumes:
-      - type: bind
-        source: ${PWD}/data
-        target: /data
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      service-registry:
-        condition: service_healthy
+#  voucher-service:
+#    container_name: voucher-service
+#    build:
+#      context: ../services/voucher-service
+#    ports:
+#      - "9085:9085"
+#    volumes:
+#      - type: bind
+#        source: ${PWD}/data
+#        target: /data
+#    depends_on:
+#      rabbitmq:
+#        condition: service_healthy
+#      service-registry:
+#        condition: service_healthy
 
 #  clients:
 #    container_name: clients
