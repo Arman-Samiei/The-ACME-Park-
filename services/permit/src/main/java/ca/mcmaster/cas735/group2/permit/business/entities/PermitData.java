@@ -3,6 +3,8 @@ package ca.mcmaster.cas735.group2.permit.business.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
+import java.time.LocalDateTime;
+
 
 @Entity @Data public class PermitData {
     @Id
@@ -27,6 +29,8 @@ import lombok.Data;
     private String customerType;
 
     private String cardNumber;
+
+    private LocalDateTime expirationTime;
 }
 
 

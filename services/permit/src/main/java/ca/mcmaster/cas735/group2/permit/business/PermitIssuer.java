@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service
@@ -46,6 +47,7 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
             log.debug(response);
             return;
         }
+        permitData.setExpirationTime(LocalDateTime.now().plusDays(30));
         database.saveAndFlush(permitData);
         lotRequest.requestSpot(new PermitLotRequestData(permitData, "pending"));
     }
