@@ -4,7 +4,7 @@
 spring:
   ## Data repository configuration
   datasource:
-    url: jdbc:h2:file:/data/database-customer-service.h2 # persistent when used in docker.
+    url: jdbc:h2:file:/data/database-permit-service.h2 # persistent when used in docker.
   h2.console:
     enabled: false
 
