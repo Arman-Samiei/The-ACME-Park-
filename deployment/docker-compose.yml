@@ -26,12 +26,56 @@ services:
       service-registry:
         condition: service_healthy
 
+  lot:
+    container_name: lot
+    build:
+      context: ../services/lot
+    ports:
+      - "9082:9082"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
   payment-service:
     container_name: payment-service
     build:
       context: ../services/payment-service
     ports:
-      - "9082:9082"
+      - "9083:9083"
+    volumes:
+      - type: bind
+        source: ${PWD}/data
+        target: /data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
+  permit:
+    container_name: permit
+    build:
+      context: ../services/permit
+    ports:
+      - "9084:9084"
+    volumes:
+      - type: bind
+        source: ${PWD}/data
+        target: /data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
+  voucher-service:
+    container_name: voucher-service
+    build:
+      context: ../services/voucher-service
+    ports:
+      - "9085:9085"
     volumes:
       - type: bind
         source: ${PWD}/data
