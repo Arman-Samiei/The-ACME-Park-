@@ -1,5 +1,6 @@
 package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
+import ca.mcmaster.cas735.group2.entry_gate.dto.TransponderGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateTransponderEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.TopicExchange;
@@ -24,9 +25,9 @@ public class AMQPTransponderValidationSender implements ValidateTransponderEntry
     private String exchange;
 
     @Override
-    public void sendTransponderEntryValidationRequest(String transponderId) {
-        log.info("Asking validation for transponder {}", transponderId);
-        rabbitTemplate.convertAndSend(exchange, "permit.entry.validation", transponderId);
+    public void sendTransponderEntryValidationRequest(TransponderGateActionDTO transponderGateActionDTO) {
+        log.info("Asking validation for transponder {}", transponderGateActionDTO);
+        rabbitTemplate.convertAndSend(exchange, "permit.entry.validation", transponderGateActionDTO);
     }
 
     @Bean

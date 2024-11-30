@@ -2,6 +2,7 @@ package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
 import ca.mcmaster.cas735.group2.entry_gate.business.EntryGateService;
 import ca.mcmaster.cas735.group2.entry_gate.dto.TransponderGateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.TransponderGateActivity;
 import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorGateActivity;
@@ -35,8 +36,8 @@ public class GateEntryRequest implements TransponderGateActivity, VisitorGateAct
     @PostMapping(value = "/visitor")
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public String receiveVisitorGateActivity() {
-        return entryGateService.validateAndProcessGateActionForVisitor();
+    public String receiveVisitorGateActivity(@RequestBody VisitorGateActionDTO visitorGateActionDTO) {
+        return entryGateService.validateAndProcessGateActionForVisitor(visitorGateActionDTO);
     }
 
     @PostMapping(value = "/voucher")
