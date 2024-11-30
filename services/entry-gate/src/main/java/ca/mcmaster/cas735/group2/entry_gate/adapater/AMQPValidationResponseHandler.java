@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPValidationResponseHandlerListener implements ValidationResponseHandler {
+public class AMQPValidationResponseHandler implements ValidationResponseHandler {
 
     private final EntryGateService entryGateService;
 
     @Autowired
-    public AMQPValidationResponseHandlerListener(EntryGateService entryGateService) {
+    public AMQPValidationResponseHandler(EntryGateService entryGateService) {
         this.entryGateService = entryGateService;
     }
 
@@ -37,7 +37,7 @@ public class AMQPValidationResponseHandlerListener implements ValidationResponse
             key = "gate.entry"))
     private void receive(String data, Channel channel, long tag) {
         GateActionDTO gateActionDTO = convertToDTO(data);
-        log.info("Received gate action: {} - with tag: {} - channel: {}", gateActionDTO, tag, channel);
+        log.info("Received gate action to forward: {} - with tag: {} - channel: {}", gateActionDTO, tag, channel);
         forwardValidationToGate(gateActionDTO);
     }
 

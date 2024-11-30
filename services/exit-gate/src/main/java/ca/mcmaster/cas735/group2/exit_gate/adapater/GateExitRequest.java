@@ -30,20 +30,20 @@ public class GateExitRequest implements TransponderGateActivity, VisitorGateActi
     @Override
     @ResponseStatus(HttpStatus.OK)
     public void receiveTransponderGateActivity(@RequestBody TransponderGateActionDTO transponderGateActionDTO) {
-        exitGateService.validateAndProcessGateAction(transponderGateActionDTO);
+        exitGateService.processTransponderGateAction(transponderGateActionDTO);
     }
 
     @PostMapping(value = "/visitor")
     @Override
     @ResponseStatus(HttpStatus.OK)
     public void receiveVisitorGateActivity(@RequestBody VisitorGateActionDTO visitorGateActionDTO) {
-        exitGateService.validateAndProcessGateAction(visitorGateActionDTO);
+        exitGateService.validateVisitorGateAction(visitorGateActionDTO);
     }
 
     @PostMapping(value = "/voucher")
     @Override
     @ResponseStatus(HttpStatus.OK)
     public void receiveVoucherGateActivity(@RequestBody VoucherGateActionDTO voucherGateActionDTO) {
-        exitGateService.validateAndProcessGateAction(voucherGateActionDTO);
+        exitGateService.processVoucherGateAction(voucherGateActionDTO);
     }
 }

@@ -2,7 +2,7 @@ package ca.mcmaster.cas735.group2.exit_gate.ports;
 
 import ca.mcmaster.cas735.group2.exit_gate.dto.GateActionDTO;
 
-public interface GateAction {
+public interface ForwardGateAction {
 
-    void handleGateAction(GateActionDTO gateActionDTO);
+    void sendGateAction(GateActionDTO gateActionDTO);
 }
