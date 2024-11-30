@@ -11,7 +11,7 @@ logging.level:
     business: INFO
 
 server:
-  port: 9080
+  port: 9085
 
 app:
   exchange: pac.exchange

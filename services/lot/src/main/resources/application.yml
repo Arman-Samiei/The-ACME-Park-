@@ -30,7 +30,7 @@ logging.level:
 
 # Port used by the server
 server:
-  port: 9087
+  port: 9082
 
 # Start management infrastructure for health check and general infos
 management:
