@@ -1,5 +1,6 @@
 package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
+import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVoucherEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,9 +23,9 @@ public class AMQPVoucherValidationSender implements ValidateVoucherEntry {
     private String exchange;
 
     @Override
-    public void sendVoucherEntryValidationRequest(String voucherId) {
-        log.info("Asking validation for voucher {}", voucherId);
-        rabbitTemplate.convertAndSend(exchange, "voucher.entry.validation", voucherId);
+    public void sendVoucherEntryValidationRequest(VoucherGateActionDTO voucherGateActionDTO) {
+        log.info("Asking validation for voucher {}", voucherGateActionDTO);
+        rabbitTemplate.convertAndSend(exchange, "voucher.entry.validation", voucherGateActionDTO);
     }
 
 //    @Bean

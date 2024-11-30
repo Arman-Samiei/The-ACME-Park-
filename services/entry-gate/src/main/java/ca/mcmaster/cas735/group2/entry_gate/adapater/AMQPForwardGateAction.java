@@ -1,6 +1,7 @@
 package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
-import ca.mcmaster.cas735.group2.entry_gate.ports.LotStatistics;
+import ca.mcmaster.cas735.group2.entry_gate.dto.GateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ForwardGateAction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPLotStatisticsSender implements LotStatistics {
+public class AMQPForwardGateAction implements ForwardGateAction {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AMQPLotStatisticsSender(RabbitTemplate rabbitTemplate) {
+    public AMQPForwardGateAction(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -22,8 +23,8 @@ public class AMQPLotStatisticsSender implements LotStatistics {
     private String exchange;
 
     @Override
-    public void updateEntryLotStatistics(String gateId) {
-        log.info("Updating statistics for gateId {}", gateId);
-        rabbitTemplate.convertAndSend(exchange, "statistics.gate.entry", gateId);
+    public void sendGateAction(GateActionDTO gateActionDTO) {
+        log.info("Sending gate action {} to commit action", gateActionDTO);
+        rabbitTemplate.convertAndSend(exchange, gateActionDTO.gateId() + ".action", gateActionDTO);
     }
 }
