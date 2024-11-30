@@ -6,6 +6,7 @@ import ca.mcmaster.cas735.group2.lot.dto.LotAvailabilityResponseData;
 import ca.mcmaster.cas735.group2.lot.ports.provided.LotAvailabilityCheckRequest;
 import ca.mcmaster.cas735.group2.lot.ports.required.LotAvailabilityCheckResponse;
 import ca.mcmaster.cas735.group2.lot.ports.required.LotRepository;
+import ca.mcmaster.cas735.group2.lot.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,25 +28,25 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
     @Override
     public void checkLotAvailability(LotAvailabilityRequestData requestData) {
         String requestSender = requestData.getRequestSender();
-        String requestDataSpotReservationStatus = requestData.getSpotReservationStatus();
+        String accessPassProcessingStatus = requestData.getAccessPassProcessingStatus();
 
         if (isPermitRequest(requestSender))
-            handlePermitRequest(requestData, requestDataSpotReservationStatus);
+            handlePermitRequest(requestData, accessPassProcessingStatus);
         else
             handleQrRequest(requestData);
 
     }
 
     private boolean isPermitRequest(String requestSender) {
-        return "permit".equals(requestSender);
+        return Constants.REQUEST_SENDER_PERMIT.equals(requestSender);
     }
 
-    private void handlePermitRequest(LotAvailabilityRequestData requestData, String requestDataSpotReservationStatus) {
-        if ("pending".equals(requestDataSpotReservationStatus))
+    private void handlePermitRequest(LotAvailabilityRequestData requestData, String accessPassProcessingStatus) {
+        if (Constants.ACCESS_PASS_PROCESSING_STATUS_PENDING.equals(accessPassProcessingStatus))
             handlePendingRequest(requestData);
-        else if ("confirmed".equals(requestDataSpotReservationStatus))
+        else if (Constants.ACCESS_PASS_PROCESSING_STATUS_CONFIRMED.equals(accessPassProcessingStatus))
             handleConfirmedRequest(requestData);
-        else if ("notConfirmed".equals(requestDataSpotReservationStatus))
+        else if (Constants.ACCESS_PASS_PROCESSING_STATUS_NOT_REJECTED.equals(accessPassProcessingStatus))
             handleNotConfirmedRequest(requestData);
 
     }
@@ -54,24 +55,24 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
-            sendEmptyResponse("permit");
+            sendEmptyResponse(Constants.REQUEST_SENDER_PERMIT);
             return;
         }
 
-        updateSpot(availableSpot, "pending", requestData.getPlateNumber());
-        sendSpotResponse(availableSpot, "permit");
+        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_PENDING, requestData.getPlateNumber());
+        sendSpotResponse(availableSpot, Constants.REQUEST_SENDER_PERMIT);
     }
 
     private void handleConfirmedRequest(LotAvailabilityRequestData requestData) {
         String plateNumber = requestData.getPlateNumber();
         LotData spot = database.findByPlateNumber(plateNumber);
-        updateSpot(spot, "confirmed", plateNumber);
+        updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_RESERVED, plateNumber);
     }
 
     private void handleNotConfirmedRequest(LotAvailabilityRequestData requestData) {
         String plateNumber = requestData.getPlateNumber();
         LotData spot = database.findByPlateNumber(plateNumber);
-        updateSpot(spot, "notReserved", plateNumber);
+        updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED, plateNumber);
     }
 
     private void handleQrRequest(LotAvailabilityRequestData requestData) {
@@ -82,14 +83,14 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
             return;
         }
 
-        updateSpot(availableSpot, "confirmed", requestData.getPlateNumber());
+        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber());
         sendSpotResponse(availableSpot, "qr");
     }
 
     private LotData findAvailableSpot(LotAvailabilityRequestData requestData) {
         return database.findFirstByCustomerTypeAndSpotReservationStatusAndLotID(
                 requestData.getCustomerType(),
-                "notReserved",
+                Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED,
                 requestData.getLotID()
         );
     }

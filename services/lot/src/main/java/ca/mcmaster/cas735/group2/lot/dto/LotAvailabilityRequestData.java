@@ -8,6 +8,6 @@ public class LotAvailabilityRequestData {
     private String lotID;
     private String customerType;
     private String plateNumber;
-    private String spotReservationStatus;
+    private String accessPassProcessingStatus;
     private String requestSender;
 }
