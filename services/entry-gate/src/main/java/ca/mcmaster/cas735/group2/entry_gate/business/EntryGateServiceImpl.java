@@ -6,8 +6,12 @@ import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ForwardGateAction;
 import ca.mcmaster.cas735.group2.entry_gate.ports.LotStatistics;
+import ca.mcmaster.cas735.group2.entry_gate.ports.TransponderGateActivity;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateTransponderEntry;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVoucherEntry;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ValidationResponseHandler;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorGateActivity;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VoucherGateActivity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +20,11 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-public class EntryGateServiceImpl implements EntryGateService {
+public class EntryGateServiceImpl implements
+        TransponderGateActivity,
+        VisitorGateActivity,
+        VoucherGateActivity,
+        ValidationResponseHandler {
 
     private final ValidateTransponderEntry validateTransponderEntry;
     private final ValidateVoucherEntry validateVoucherEntry;
@@ -35,25 +43,25 @@ public class EntryGateServiceImpl implements EntryGateService {
     }
 
     @Override
-    public void validateAndProcessGateAction(TransponderGateActionDTO transponderGateActionDTO) {
+    public void receiveTransponderGateActivity(TransponderGateActionDTO transponderGateActionDTO) {
         validateTransponderEntry.sendTransponderEntryValidationRequest(transponderGateActionDTO);
     }
 
     @Override
-    public void validateAndProcessGateAction(VoucherGateActionDTO voucherGateActionDTO) {
+    public void receiveVoucherGateActivity(VoucherGateActionDTO voucherGateActionDTO) {
         validateVoucherEntry.sendVoucherEntryValidationRequest(voucherGateActionDTO);
     }
 
     @Override
-    public String validateAndProcessGateActionForVisitor(VisitorGateActionDTO visitorGateActionDTO) {
+    public String receiveVisitorGateActivity(VisitorGateActionDTO visitorGateActionDTO) {
         String qrId = UUID.randomUUID().toString();
         // QR Code is generated and sent to the visitor and enter the gate
-        forwardGateResponse(new GateActionDTO(true, visitorGateActionDTO.gateId()));
+        forwardValidationToGate(new GateActionDTO(true, visitorGateActionDTO.gateId()));
         return qrId;
     }
 
     @Override
-    public void forwardGateResponse(GateActionDTO gateActionDTO) {
+    public void forwardValidationToGate(GateActionDTO gateActionDTO) {
         forwardGateAction.sendGateAction(gateActionDTO);
         if (gateActionDTO.shouldOpen()) {
             lotStatistics.updateEntryLotStatistics(gateActionDTO.gateId());

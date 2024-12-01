@@ -1,6 +1,5 @@
 package ca.mcmaster.cas735.group2.payment_service.adapter;
 
-import ca.mcmaster.cas735.group2.payment_service.business.PaymentService;
 import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
 import ca.mcmaster.cas735.group2.payment_service.ports.ReceiveFines;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,18 +14,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPReceiveFinesListener implements ReceiveFines {
+public class AMQPReceiveFinesListener {
 
-    private final PaymentService paymentService;
+    private final ReceiveFines receiveFines;
 
     @Autowired
-    public AMQPReceiveFinesListener(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
-
-    @Override
-    public void receiveFineAmount(ExistingFinesDTO existingFinesDTO) {
-        paymentService.commitOrderAndRoute(existingFinesDTO);
+    public AMQPReceiveFinesListener(ReceiveFines receiveFines) {
+        this.receiveFines = receiveFines;
     }
 
     // TODO: Check if private works with @RabbitListener annotation
@@ -40,7 +34,7 @@ public class AMQPReceiveFinesListener implements ReceiveFines {
 
         log.info("Received fines: {} - with tag: {} - channel: {}", existingFinesDTO, tag, channel);
 
-        receiveFineAmount(existingFinesDTO);
+        receiveFines.commitOrderAndRoute(existingFinesDTO);
     }
 
     private ExistingFinesDTO convertToDTO(String data) {

@@ -1,7 +1,7 @@
-package ca.mcmaster.cas735.group2.entry_gate.adapater;
+package ca.mcmaster.cas735.group2.exit_gate.adapater;
 
-import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
-import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVoucherEntry;
+import ca.mcmaster.cas735.group2.exit_gate.dto.VoucherGateActionDTO;
+import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateVoucherFines;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPVoucherValidationSender implements ValidateVoucherEntry {
+public class AMQPValidateVoucherFinesSender implements ValidateVoucherFines {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AMQPVoucherValidationSender(RabbitTemplate rabbitTemplate) {
+    public AMQPValidateVoucherFinesSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -24,9 +24,9 @@ public class AMQPVoucherValidationSender implements ValidateVoucherEntry {
     private String exchange;
 
     @Override
-    public void sendVoucherEntryValidationRequest(VoucherGateActionDTO voucherGateActionDTO) {
-        log.info("Asking validation for voucher {}", voucherGateActionDTO);
-        rabbitTemplate.convertAndSend(exchange, "voucher.entry.validation", translate(voucherGateActionDTO));
+    public void sendVoucherValidationForFines(VoucherGateActionDTO voucherGateActionDTO) {
+        log.info("Checking fines for voucher {}", voucherGateActionDTO);
+        rabbitTemplate.convertAndSend(exchange, "payment.activity.request", translate(voucherGateActionDTO));
     }
 
     private String translate(VoucherGateActionDTO voucherGateActionDTO) {
@@ -37,10 +37,4 @@ public class AMQPVoucherValidationSender implements ValidateVoucherEntry {
             throw new RuntimeException(e);
         }
     }
-
-//    @Bean
-//    public TopicExchange outbound() {
-//        // this will create the outbound exchange if it does not exist
-//        return new TopicExchange(exchange);
-//    }
 }

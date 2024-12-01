@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class VoucherValidation implements Validatement, Issue {
+public class VoucherValidation implements Issue {
 
     private static final Set<String> registered = new HashSet<>();
 
@@ -24,7 +24,6 @@ public class VoucherValidation implements Validatement, Issue {
         registered.remove(voucherID);
     }
 
-    @Override
     public void receive_transponder_info(SenML data) {
         if (registered.contains(data.getId())) {
             log.info("Voucher accepted");

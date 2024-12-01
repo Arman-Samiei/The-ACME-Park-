@@ -1,6 +1,5 @@
 package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
-import ca.mcmaster.cas735.group2.entry_gate.business.EntryGateService;
 import ca.mcmaster.cas735.group2.entry_gate.dto.GateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidationResponseHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,18 +14,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPValidationResponseHandler implements ValidationResponseHandler {
+public class AMQPValidationResponseHandler {
 
-    private final EntryGateService entryGateService;
+    private final ValidationResponseHandler validationResponseHandler;
 
     @Autowired
-    public AMQPValidationResponseHandler(EntryGateService entryGateService) {
-        this.entryGateService = entryGateService;
-    }
-
-    @Override
-    public void forwardValidationToGate(GateActionDTO gateActionDTO) {
-        entryGateService.forwardGateResponse(gateActionDTO);
+    public AMQPValidationResponseHandler(ValidationResponseHandler validationResponseHandler) {
+        this.validationResponseHandler = validationResponseHandler;
     }
 
     // TODO: Check if private works with @RabbitListener annotation
@@ -38,7 +32,7 @@ public class AMQPValidationResponseHandler implements ValidationResponseHandler 
     private void receive(String data, Channel channel, long tag) {
         GateActionDTO gateActionDTO = convertToDTO(data);
         log.info("Received gate action to forward: {} - with tag: {} - channel: {}", gateActionDTO, tag, channel);
-        forwardValidationToGate(gateActionDTO);
+        validationResponseHandler.forwardValidationToGate(gateActionDTO);
     }
 
     private GateActionDTO convertToDTO(String data) {

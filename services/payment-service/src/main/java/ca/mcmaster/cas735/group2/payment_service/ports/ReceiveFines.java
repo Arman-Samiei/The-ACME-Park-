@@ -4,5 +4,5 @@ import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
 
 public interface ReceiveFines {
 
-    void receiveFineAmount(ExistingFinesDTO existingFinesDTO);
+    void commitOrderAndRoute(ExistingFinesDTO existingFinesDTO);
 }

@@ -2,6 +2,7 @@ package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
 import ca.mcmaster.cas735.group2.entry_gate.dto.TransponderGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateTransponderEntry;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -27,7 +28,16 @@ public class AMQPTransponderValidationSender implements ValidateTransponderEntry
     @Override
     public void sendTransponderEntryValidationRequest(TransponderGateActionDTO transponderGateActionDTO) {
         log.info("Asking validation for transponder {}", transponderGateActionDTO);
-        rabbitTemplate.convertAndSend(exchange, "permit.entry.validation", transponderGateActionDTO);
+        rabbitTemplate.convertAndSend(exchange, "permit.entry.validation", translate(transponderGateActionDTO));
+    }
+
+    private String translate(TransponderGateActionDTO transponderGateActionDTO) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(transponderGateActionDTO);
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean

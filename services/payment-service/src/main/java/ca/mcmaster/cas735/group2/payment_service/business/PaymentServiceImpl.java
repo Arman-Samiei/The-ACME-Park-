@@ -12,8 +12,10 @@ import ca.mcmaster.cas735.group2.payment_service.dto.PermitOrderDTO;
 import ca.mcmaster.cas735.group2.payment_service.ports.BankConnection;
 import ca.mcmaster.cas735.group2.payment_service.ports.DetermineFines;
 import ca.mcmaster.cas735.group2.payment_service.ports.OrderDataRepository;
+import ca.mcmaster.cas735.group2.payment_service.ports.PaymentActivity;
 import ca.mcmaster.cas735.group2.payment_service.ports.PayslipConnection;
 import ca.mcmaster.cas735.group2.payment_service.ports.PermitPurchase;
+import ca.mcmaster.cas735.group2.payment_service.ports.ReceiveFines;
 import ca.mcmaster.cas735.group2.payment_service.ports.VisitorExit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
 
     private final OrderDataRepository ordersDatabase;
     private final DetermineFines determineFines;
@@ -48,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void createOrderAndDetermineFines(PaymentRequestDTO paymentRequestDTO) {
+    public void receivePaymentActivity(PaymentRequestDTO paymentRequestDTO) {
         PaymentType paymentType = PaymentType.valueOf(paymentRequestDTO.paymentType());
 
         double paymentAmount = 0;

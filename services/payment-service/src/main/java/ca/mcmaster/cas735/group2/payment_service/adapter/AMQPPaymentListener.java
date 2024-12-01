@@ -1,6 +1,5 @@
 package ca.mcmaster.cas735.group2.payment_service.adapter;
 
-import ca.mcmaster.cas735.group2.payment_service.business.PaymentService;
 import ca.mcmaster.cas735.group2.payment_service.dto.PaymentRequestDTO;
 import ca.mcmaster.cas735.group2.payment_service.ports.PaymentActivity;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,22 +12,15 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URISyntaxException;
-
 @Service
 @Slf4j
-public class AMQPPaymentListener implements PaymentActivity {
+public class AMQPPaymentListener {
 
-    private final PaymentService paymentService;
+    private final PaymentActivity paymentActivity;
 
     @Autowired
-    public AMQPPaymentListener(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
-
-    @Override
-    public void receivePaymentActivity(PaymentRequestDTO paymentRequestDTO) {
-        paymentService.createOrderAndDetermineFines(paymentRequestDTO);
+    public AMQPPaymentListener(PaymentActivity paymentActivity) {
+        this.paymentActivity = paymentActivity;
     }
 
     // TODO: Check if private works with @RabbitListener annotation
@@ -42,7 +34,7 @@ public class AMQPPaymentListener implements PaymentActivity {
 
         log.info("Received payment request: {} - with tag: {} - channel: {}", paymentRequestDTO, tag, channel);
 
-        receivePaymentActivity(paymentRequestDTO);
+        paymentActivity.receivePaymentActivity(paymentRequestDTO);
     }
 
     private PaymentRequestDTO convertToDTO(String data) {
