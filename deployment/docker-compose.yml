@@ -90,6 +90,22 @@ services:
       service-registry:
         condition: service_healthy
 
+  fines:
+    container_name: fines
+    build:
+      context: ../services/fines
+    ports:
+      - "9086:9086"
+    volumes:
+      - type: bind
+        source: ${PWD}/data
+        target: /data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      service-registry:
+        condition: service_healthy
+
 #  clients:
 #    container_name: clients
 #    build:
