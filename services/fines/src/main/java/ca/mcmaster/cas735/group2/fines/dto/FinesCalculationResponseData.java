@@ -8,4 +8,9 @@ import lombok.NoArgsConstructor;
 public class FinesCalculationResponseData {
     String plateNumber;
     Double amount;
+    public FinesCalculationResponseData (String plateNumber, Double amount){
+        this.plateNumber = plateNumber;
+        this.amount = amount;
+
+    }
 }
