@@ -4,5 +4,5 @@ import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateActionDTO;
 
 public interface VisitorGateActivity {
 
-    String receiveVisitorGateActivity(VisitorGateActionDTO visitorGateActionDTO);
+    void receiveVisitorGateActivity(VisitorGateActionDTO visitorGateActionDTO);
 }

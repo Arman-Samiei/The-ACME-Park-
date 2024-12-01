@@ -37,7 +37,7 @@ public class AMQPGateEntryListener {
             value = @Queue(value = "gate.entry.transponder", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "gate.entry.transponder"))
+            key = "*"))
     private void receiveTransponder(String data, Channel channel, long tag) {
         TransponderGateActionDTO transponderGateActionDTO = convertToTransponderDTO(data);
         log.info("Received gate action for transponder: {} - with tag: {} - channel: {}", transponderGateActionDTO, tag, channel);
@@ -48,7 +48,7 @@ public class AMQPGateEntryListener {
             value = @Queue(value = "gate.entry.visitor", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "gate.entry.visitor"))
+            key = "*"))
     private void receiveVisitor(String data, Channel channel, long tag) {
         VisitorGateActionDTO visitorGateActionDTO = convertToVisitorDTO(data);
         log.info("Received gate action for visitor: {} - with tag: {} - channel: {}", visitorGateActionDTO, tag, channel);
@@ -59,7 +59,7 @@ public class AMQPGateEntryListener {
             value = @Queue(value = "gate.entry.voucher", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "gate.entry.voucher"))
+            key = "*"))
     private void receiveVoucher(String data, Channel channel, long tag) {
         VoucherGateActionDTO voucherGateActionDTO = convertToVoucherDTO(data);
         log.info("Received gate action for voucher: {} - with tag: {} - channel: {}", voucherGateActionDTO, tag, channel);

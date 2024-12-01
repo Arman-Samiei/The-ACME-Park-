@@ -28,7 +28,7 @@ public class AMQPValidationResponseHandler {
             value = @Queue(value = "gate.entry.action", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "gate.entry"))
+            key = "*"))
     private void receive(String data, Channel channel, long tag) {
         GateActionDTO gateActionDTO = convertToDTO(data);
         log.info("Received gate action to forward: {} - with tag: {} - channel: {}", gateActionDTO, tag, channel);

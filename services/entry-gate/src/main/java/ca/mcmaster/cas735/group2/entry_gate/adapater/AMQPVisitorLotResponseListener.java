@@ -1,7 +1,7 @@
-package ca.mcmaster.cas735.group2.payment_service.adapter;
+package ca.mcmaster.cas735.group2.entry_gate.adapater;
 
-import ca.mcmaster.cas735.group2.payment_service.dto.PaymentRequestDTO;
-import ca.mcmaster.cas735.group2.payment_service.ports.PaymentActivity;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateLotResponseDTO;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorLotResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -14,33 +14,30 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPPaymentListener {
+public class AMQPVisitorLotResponseListener {
 
-    private final PaymentActivity paymentActivity;
+    private final VisitorLotResponse visitorLotResponse;
 
     @Autowired
-    public AMQPPaymentListener(PaymentActivity paymentActivity) {
-        this.paymentActivity = paymentActivity;
+    public AMQPVisitorLotResponseListener(VisitorLotResponse visitorLotResponse) {
+        this.visitorLotResponse = visitorLotResponse;
     }
 
-    // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "payment.activity.request", durable = "true"),
+            value = @Queue(value = "visitor.lot.response", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "*"))
     private void receive(String data, Channel channel, long tag) {
-        PaymentRequestDTO paymentRequestDTO = convertToDTO(data);
-
-        log.info("Received payment request: {} - with tag: {} - channel: {}", paymentRequestDTO, tag, channel);
-
-        paymentActivity.receivePaymentActivity(paymentRequestDTO);
+        VisitorGateLotResponseDTO visitorGateRequestForLotDTO = convertToDTO(data);
+        log.info("Received lot response for visitor: {} - with tag: {} - channel: {}", visitorGateRequestForLotDTO, tag, channel);
+        visitorLotResponse.sendVisitorLotResponse(visitorGateRequestForLotDTO);
     }
 
-    private PaymentRequestDTO convertToDTO(String data) {
+    private VisitorGateLotResponseDTO convertToDTO(String data) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(data, PaymentRequestDTO.class);
+            return objectMapper.readValue(data, VisitorGateLotResponseDTO.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,14 +3,18 @@ package ca.mcmaster.cas735.group2.entry_gate.business;
 import ca.mcmaster.cas735.group2.entry_gate.dto.GateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.dto.TransponderGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateLotResponseDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateRequestForLotDTO;
 import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ForwardGateAction;
 import ca.mcmaster.cas735.group2.entry_gate.ports.LotStatistics;
 import ca.mcmaster.cas735.group2.entry_gate.ports.TransponderGateActivity;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateTransponderEntry;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVisitorEntry;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVoucherEntry;
 import ca.mcmaster.cas735.group2.entry_gate.ports.ValidationResponseHandler;
 import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorGateActivity;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorLotResponse;
 import ca.mcmaster.cas735.group2.entry_gate.ports.VoucherGateActivity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +28,24 @@ public class EntryGateServiceImpl implements
         TransponderGateActivity,
         VisitorGateActivity,
         VoucherGateActivity,
-        ValidationResponseHandler {
+        ValidationResponseHandler,
+        VisitorLotResponse {
 
     private final ValidateTransponderEntry validateTransponderEntry;
     private final ValidateVoucherEntry validateVoucherEntry;
+    private final ValidateVisitorEntry validateVisitorEntry;
     private final LotStatistics lotStatistics;
     private final ForwardGateAction forwardGateAction;
 
     @Autowired
     public EntryGateServiceImpl(ValidateTransponderEntry validateTransponderEntry,
                                 ValidateVoucherEntry validateVoucherEntry,
+                                ValidateVisitorEntry validateVisitorEntry,
                                 LotStatistics lotStatistics,
                                 ForwardGateAction forwardGateAction) {
         this.validateTransponderEntry = validateTransponderEntry;
         this.validateVoucherEntry = validateVoucherEntry;
+        this.validateVisitorEntry = validateVisitorEntry;
         this.lotStatistics = lotStatistics;
         this.forwardGateAction = forwardGateAction;
     }
@@ -53,11 +61,24 @@ public class EntryGateServiceImpl implements
     }
 
     @Override
-    public String receiveVisitorGateActivity(VisitorGateActionDTO visitorGateActionDTO) {
-        String qrId = UUID.randomUUID().toString();
-        // QR Code is generated and sent to the visitor and enter the gate
-        forwardValidationToGate(new GateActionDTO(true, visitorGateActionDTO.gateId()));
-        return qrId;
+    public void receiveVisitorGateActivity(VisitorGateActionDTO visitorGateActionDTO) {
+        VisitorGateRequestForLotDTO visitorGateRequestForLotDTO = new VisitorGateRequestForLotDTO(
+                visitorGateActionDTO.gateId(),
+                "visitor",
+                visitorGateActionDTO.licencePlate()
+        );
+        validateVisitorEntry.sendVisitorEntryValidationRequest(visitorGateRequestForLotDTO);
+    }
+
+    @Override
+    public void sendVisitorLotResponse(VisitorGateLotResponseDTO visitorGateLotResponseDTO) {
+        if (!visitorGateLotResponseDTO.spotID().isEmpty()) {
+            UUID qrCode = UUID.randomUUID();
+            forwardGateAction.sendGateAction(new GateActionDTO(true, visitorGateLotResponseDTO.lotID(), qrCode.toString()));
+            lotStatistics.updateEntryLotStatistics(visitorGateLotResponseDTO.lotID());
+        } else {
+            forwardValidationToGate(new GateActionDTO(false, visitorGateLotResponseDTO.lotID(), ""));
+        }
     }
 
     @Override

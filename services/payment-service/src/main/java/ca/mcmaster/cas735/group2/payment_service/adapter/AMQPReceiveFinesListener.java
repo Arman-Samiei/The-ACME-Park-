@@ -28,7 +28,7 @@ public class AMQPReceiveFinesListener {
             value = @Queue(value = "fines.payment.response", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "fines"))
+            key = "*"))
     private void receive(String data, Channel channel, long tag) {
         ExistingFinesDTO existingFinesDTO = convertToDTO(data);
 
