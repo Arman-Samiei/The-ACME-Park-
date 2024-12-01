@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: fines
+  ## Data repository configuration
+
+  rabbitmq:
+    username: admin
+    password: cas735
+
+  datasource:
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+app:
+  custom:
+    messaging:
+      exchange-topic: pac.exchange
+
+## logging level
+logging.level:
+  ca.mcmaster.cas735.group2.fines:
+    adapter:  INFO # DEBUG for fine-grained trace
+    business: INFO
+
+# Port used by the server
+server:
+  port: 9086
+
+# Start management infrastructure for health check and general infos
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+      base-path: /actuator
+
+# Info about the service
+info:
+  application:
+    description: '@project.description@'
+    version:     '@project.version@'
+
+# Asks the Service Registry client to register this instance as alive in the eureka registry
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+  
