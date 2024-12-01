@@ -20,5 +20,6 @@
     <module>services/payment-service</module>
     <module>services/permit</module>
     <module>services/voucher-service</module>
+    <module>services/fines</module>
   </modules>
 </project>
