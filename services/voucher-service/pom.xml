@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.mcmaster.cas735.group2</groupId>
-	<artifactId>voucher-service</artifactId>
+	<artifactId>voucher</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>voucher-service</name>
-	<description>Voucher Service using Eureka (Netflix) with Spring Cloud</description>
+	<name>voucher</name>
+	<description>Voucher using Eureka (Netflix) with Spring Cloud</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -47,10 +47,6 @@
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-amqp</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.integration</groupId>
-			<artifactId>spring-integration-mqtt</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,8 +63,19 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- Data Repository -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
-    </dependencies>
+
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
