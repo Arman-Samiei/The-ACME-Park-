@@ -23,9 +23,9 @@ public class ReleaseSpotRequestAdapter implements ReleaseSpotRequest {
     }
 
     @Override
-    public void sendReleaseSpotRequest(String plotNumber) {
-        log.debug("Sending message to {}: {}", exchange, plotNumber);
-        rabbitTemplate.convertAndSend(exchange, "spot.release.request", plotNumber);
+    public void sendReleaseSpotRequest(String plateNumber) {
+        log.debug("Sending message to {}: {}", exchange, plateNumber);
+        rabbitTemplate.convertAndSend(exchange, "spot.release.request", plateNumber);
     }
 
 
