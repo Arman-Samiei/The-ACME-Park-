@@ -1,7 +1,13 @@
 # Overriding configuration when started in local mode
-# to start in local with maven: -Dspring-boot.run.profiles=local
+# to start in local mode with maven: -Dspring-boot.run.profiles=local
 
 spring:
+  ## Data repository configuration
+  datasource:
+    url: jdbc:h2:mem:voucher_db # in memory database when used locally
+  h2.console:
+    enabled: true # expose database web UI for debugging purposes
+
   rabbitmq:
     host: localhost
 
