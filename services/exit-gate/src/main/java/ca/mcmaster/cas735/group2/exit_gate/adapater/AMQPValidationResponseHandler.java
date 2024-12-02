@@ -25,10 +25,10 @@ public class AMQPValidationResponseHandler {
 
     // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "gate.exit.action", durable = "true"),
+            value = @Queue(value = "gate.exit.action.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "gate.exit.action"))
     private void receive(String data, Channel channel, long tag) {
         GateActionDTO gateActionDTO = convertToDTO(data);
         log.info("Received gate action to forward: {} - with tag: {} - channel: {}", gateActionDTO, tag, channel);

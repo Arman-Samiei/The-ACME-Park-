@@ -1,26 +1,10 @@
 package ca.mcmaster.cas735.group2.entry_gate.business;
 
-import ca.mcmaster.cas735.group2.entry_gate.dto.GateActionDTO;
-import ca.mcmaster.cas735.group2.entry_gate.dto.TransponderGateActionDTO;
-import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateActionDTO;
-import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateLotResponseDTO;
-import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateRequestForLotDTO;
-import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
-import ca.mcmaster.cas735.group2.entry_gate.ports.ForwardGateAction;
-import ca.mcmaster.cas735.group2.entry_gate.ports.LotStatistics;
-import ca.mcmaster.cas735.group2.entry_gate.ports.TransponderGateActivity;
-import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateTransponderEntry;
-import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVisitorEntry;
-import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVoucherEntry;
-import ca.mcmaster.cas735.group2.entry_gate.ports.ValidationResponseHandler;
-import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorGateActivity;
-import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorLotResponse;
-import ca.mcmaster.cas735.group2.entry_gate.ports.VoucherGateActivity;
+import ca.mcmaster.cas735.group2.entry_gate.dto.*;
+import ca.mcmaster.cas735.group2.entry_gate.ports.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -73,8 +57,7 @@ public class EntryGateServiceImpl implements
     @Override
     public void sendVisitorLotResponse(VisitorGateLotResponseDTO visitorGateLotResponseDTO) {
         if (!visitorGateLotResponseDTO.spotID().isEmpty()) {
-            UUID qrCode = UUID.randomUUID();
-            forwardGateAction.sendGateAction(new GateActionDTO(true, visitorGateLotResponseDTO.lotID(), qrCode.toString()));
+            forwardGateAction.sendGateAction(new GateActionDTO(true, visitorGateLotResponseDTO.lotID(), visitorGateLotResponseDTO.spotID()));
             lotStatistics.updateEntryLotStatistics(visitorGateLotResponseDTO.lotID());
         } else {
             forwardValidationToGate(new GateActionDTO(false, visitorGateLotResponseDTO.lotID(), ""));

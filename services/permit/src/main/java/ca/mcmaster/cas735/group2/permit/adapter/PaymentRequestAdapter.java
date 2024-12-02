@@ -27,7 +27,7 @@ public class PaymentRequestAdapter implements PaymentRequest {
     @Override
     public void requestPayment(PaymentRequestData paymentRequestData) {
         log.debug("Sending message to {}: {}", exchange, paymentRequestData);
-        rabbitTemplate.convertAndSend(exchange, "permit.payment.request", translate(paymentRequestData));
+        rabbitTemplate.convertAndSend(exchange, "payment.activity.request", translate(paymentRequestData));
     }
 
 

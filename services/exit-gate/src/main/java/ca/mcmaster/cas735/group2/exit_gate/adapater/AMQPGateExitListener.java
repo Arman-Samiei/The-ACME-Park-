@@ -34,10 +34,10 @@ public class AMQPGateExitListener {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "gate.exit.transponder", durable = "true"),
+            value = @Queue(value = "gate.exit.transponder.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "gate.exit.transponder"))
     private void receiveTransponder(String data, Channel channel, long tag) {
         TransponderGateActionDTO transponderGateActionDTO = convertToTransponderDTO(data);
         log.info("Received gate action for transponder: {} - with tag: {} - channel: {}", transponderGateActionDTO, tag, channel);
@@ -45,10 +45,10 @@ public class AMQPGateExitListener {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "gate.exit.visitor", durable = "true"),
+            value = @Queue(value = "gate.exit.visitor.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "gate.exit.visitor"))
     private void receiveVisitor(String data, Channel channel, long tag) {
         VisitorGateActionDTO visitorGateActionDTO = convertToVisitorDTO(data);
         log.info("Received gate action for visitor: {} - with tag: {} - channel: {}", visitorGateActionDTO, tag, channel);
@@ -56,10 +56,10 @@ public class AMQPGateExitListener {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "gate.exit.voucher", durable = "true"),
+            value = @Queue(value = "gate.exit.voucher.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "gate.exit.voucher"))
     private void receiveVoucher(String data, Channel channel, long tag) {
         VoucherGateActionDTO voucherGateActionDTO = convertToVoucherDTO(data);
         log.info("Received gate action for voucher: {} - with tag: {} - channel: {}", voucherGateActionDTO, tag, channel);

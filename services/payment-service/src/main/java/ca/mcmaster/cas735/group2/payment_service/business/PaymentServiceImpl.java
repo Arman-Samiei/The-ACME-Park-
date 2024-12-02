@@ -111,7 +111,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         if (order.getPaymentType() == PaymentType.VISITOR_EXIT) {
             visitorExit.processVisitorExit(new GateActionDTO(paymentResponseDTO.success(), order.getGateId()));
         } else if (order.getPaymentType() == PaymentType.NEW_PERMIT) {
-            permitPurchase.processPermitPurchase(new PermitOrderDTO(order.getId(), paymentResponseDTO.success()));
+            permitPurchase.processPermitPurchase(new PermitOrderDTO(order.getLicensePlate(), paymentResponseDTO.success()));
         }
 
     }
