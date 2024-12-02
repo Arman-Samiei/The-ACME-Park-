@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PermitRepository extends JpaRepository<PermitData, String> {
-    PermitData findByTransponderID(String transponderID);
     PermitData findByPlateNumber(String plateNumber);
 
     List<PermitData> findAllByExpirationTimeBefore(LocalDateTime time); // Query for expired permits

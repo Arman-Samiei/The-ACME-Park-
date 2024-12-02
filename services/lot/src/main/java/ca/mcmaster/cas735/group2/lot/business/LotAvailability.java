@@ -32,18 +32,28 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
 
         if (isPermitRequest(requestSender))
             handlePermitRequest(requestData, accessPassProcessingStatus);
-        else
-            handleQrRequest(requestData);
+        else if (isVisitorSender(requestSender))
+            handleVisitorRequest(requestData);
+        else if (isVoucherSender(requestSender))
+            handleVoucherRequest(requestData);
 
     }
 
     private boolean isPermitRequest(String requestSender) {
-        return Constants.REQUEST_SENDER_PERMIT.equals(requestSender);
+        return Constants.SENDER_RECEIVER_PERMIT.equals(requestSender);
+    }
+
+    private boolean isVisitorSender(String requestSender) {
+        return Constants.SENDER_RECEIVER_VISITOR.equals(requestSender);
+    }
+
+    private boolean isVoucherSender(String requestSender) {
+        return Constants.SENDER_RECEIVER_VOUCHER.equals(requestSender);
     }
 
     private void handlePermitRequest(LotAvailabilityRequestData requestData, String accessPassProcessingStatus) {
         if (Constants.ACCESS_PASS_PROCESSING_STATUS_PENDING.equals(accessPassProcessingStatus))
-            handlePendingRequest(requestData);
+            handlePermitPendingRequest(requestData);
         else if (Constants.ACCESS_PASS_PROCESSING_STATUS_CONFIRMED.equals(accessPassProcessingStatus))
             handleConfirmedRequest(requestData);
         else if (Constants.ACCESS_PASS_PROCESSING_STATUS_NOT_REJECTED.equals(accessPassProcessingStatus))
@@ -51,16 +61,16 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
 
     }
 
-    private void handlePendingRequest(LotAvailabilityRequestData requestData) {
+    private void handlePermitPendingRequest(LotAvailabilityRequestData requestData) {
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
-            sendEmptyResponse(Constants.REQUEST_SENDER_PERMIT);
+            sendEmptyResponse(Constants.SENDER_RECEIVER_PERMIT);
             return;
         }
 
         updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_PENDING, requestData.getPlateNumber());
-        sendSpotResponse(availableSpot, Constants.REQUEST_SENDER_PERMIT);
+        sendSpotResponse(availableSpot, Constants.SENDER_RECEIVER_PERMIT);
     }
 
     private void handleConfirmedRequest(LotAvailabilityRequestData requestData) {
@@ -75,16 +85,28 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED, plateNumber);
     }
 
-    private void handleQrRequest(LotAvailabilityRequestData requestData) {
+    private void handleVisitorRequest(LotAvailabilityRequestData requestData) {
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
-            sendEmptyResponse("qr");
+            sendEmptyResponse(Constants.SENDER_RECEIVER_VISITOR);
             return;
         }
 
         updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber());
-        sendSpotResponse(availableSpot, "qr");
+        sendSpotResponse(availableSpot, Constants.SENDER_RECEIVER_VISITOR);
+    }
+
+    private void handleVoucherRequest(LotAvailabilityRequestData requestData) {
+        LotData availableSpot = findAvailableSpot(requestData);
+
+        if (availableSpot == null) {
+            sendEmptyResponse(Constants.SENDER_RECEIVER_VOUCHER);
+            return;
+        }
+
+        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber());
+        sendSpotResponse(availableSpot, Constants.SENDER_RECEIVER_VOUCHER);
     }
 
     private LotData findAvailableSpot(LotAvailabilityRequestData requestData) {

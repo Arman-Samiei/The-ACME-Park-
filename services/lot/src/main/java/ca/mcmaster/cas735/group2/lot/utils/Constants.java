@@ -2,9 +2,12 @@ package ca.mcmaster.cas735.group2.lot.utils;
 
 public final class Constants {
 
-    private Constants() {}
+    private Constants() {
+    }
 
-    public static final String REQUEST_SENDER_PERMIT = "permit";
+    public static final String SENDER_RECEIVER_PERMIT = "permit";
+    public static final String SENDER_RECEIVER_VISITOR = "visitor";
+    public static final String SENDER_RECEIVER_VOUCHER = "voucher";
     public static final String SPOT_RESERVATION_STATUS_PENDING = "pending";
     public static final String SPOT_RESERVATION_STATUS_RESERVED = "reserved";
     public static final String SPOT_RESERVATION_STATUS_NOT_RESERVED = "notReserved";
