@@ -26,14 +26,14 @@ public class AMQPVisitorValidationSender implements ValidateVisitorEntry {
     @Override
     public void sendVisitorEntryValidationRequest(VisitorGateRequestForLotDTO visitorGateRequestForLotDTO) {
         log.info("Asking validation for visitor {}", visitorGateRequestForLotDTO);
-        rabbitTemplate.convertAndSend(exchange, "spot.availability.request.queue", translate(visitorGateRequestForLotDTO));
+        rabbitTemplate.convertAndSend(exchange, "spot.availability.request", translate(visitorGateRequestForLotDTO));
     }
 
     private String translate(VisitorGateRequestForLotDTO visitorGateRequestForLotDTO) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(visitorGateRequestForLotDTO);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
