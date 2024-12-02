@@ -24,10 +24,10 @@ public class AMQPVisitorLotResponseListener {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "visitor.lot.response", durable = "true"),
+            value = @Queue(value = "visitor.lot.response.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "visitor.lot.response"))
     private void receive(String data, Channel channel, long tag) {
         VisitorGateLotResponseDTO visitorGateRequestForLotDTO = convertToDTO(data);
         log.info("Received lot response for visitor: {} - with tag: {} - channel: {}", visitorGateRequestForLotDTO, tag, channel);

@@ -28,7 +28,7 @@ public class PermitValidationResponseAdapter implements PermitValidationResponse
     @Override
     public void sendValidationResult(PermitValidationResponseData permitValidationResponseData) {
         log.debug("Sending message to {}: {}", exchange, permitValidationResponseData);
-        rabbitTemplate.convertAndSend(exchange, "permit.entry.validation.response", translate(permitValidationResponseData));
+        rabbitTemplate.convertAndSend(exchange, "gate.entry.action", translate(permitValidationResponseData));
     }
 
 

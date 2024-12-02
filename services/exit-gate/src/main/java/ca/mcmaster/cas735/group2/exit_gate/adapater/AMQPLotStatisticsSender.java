@@ -24,6 +24,6 @@ public class AMQPLotStatisticsSender implements LotStatistics {
     @Override
     public void updateExitLotStatistics(String gateId) {
         log.info("Updating statistics for gateId {}", gateId);
-        rabbitTemplate.convertAndSend(exchange, "statistics.gateId.exit", gateId);
+        rabbitTemplate.convertAndSend(exchange, "lot.update.status.request", gateId);
     }
 }

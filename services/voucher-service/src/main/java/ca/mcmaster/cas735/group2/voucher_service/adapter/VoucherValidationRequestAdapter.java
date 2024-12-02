@@ -23,7 +23,7 @@ public class VoucherValidationRequestAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.permit.entry.validation.queue", durable = "true"),
+            value = @Queue(value = "pac.exchange.voucher.entry.validation.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "voucher.entry.validation"))
     public void listen(String data) {
