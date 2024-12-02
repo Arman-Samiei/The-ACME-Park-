@@ -48,6 +48,8 @@ services:
       context: ../services/payment-service
     ports:
       - "9083:9083"
+    networks:
+      - shared-network
     volumes:
       - type: bind
         source: ${PWD}/data
@@ -105,6 +107,10 @@ services:
         condition: service_healthy
       service-registry:
         condition: service_healthy
+
+networks:
+  shared-network:
+    external: true
 
 #  clients:
 #    container_name: clients

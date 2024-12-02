@@ -6,6 +6,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "50000:5000"
-    extra_hosts:
-      - "extbank.com:0.0.0.0"
-      - "extbank.com:127.0.0.1"
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
