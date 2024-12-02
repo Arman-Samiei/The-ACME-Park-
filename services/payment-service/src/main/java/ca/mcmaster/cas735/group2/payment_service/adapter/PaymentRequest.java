@@ -32,19 +32,19 @@ public class PaymentRequest implements BankConnection, PayslipConnection {
             return restTemplate.postForObject(uri, outgoingBankPaymentRequestDTO, PaymentResponseDTO.class);
         } catch (URISyntaxException e) {
             log.error("Error processing bank payment: {}", e.getMessage());
-            return new PaymentResponseDTO("", false);
+            return new PaymentResponseDTO(false);
         }
     }
 
     @Override
-    public PaymentResponseDTO processPayslipPayment(OutgoingPayslipPaymentRequestDTO outgoingBankPaymentRequestDTO) {
+    public PaymentResponseDTO processPayslipPayment(OutgoingPayslipPaymentRequestDTO outgoingPayslipPaymentRequestDTO) {
         RestTemplate restTemplate = new RestTemplate();
         try {
             URI uri = new URI(payslipRoute);
-            return restTemplate.postForObject(uri, outgoingBankPaymentRequestDTO, PaymentResponseDTO.class);
+            return restTemplate.postForObject(uri, outgoingPayslipPaymentRequestDTO, PaymentResponseDTO.class);
         } catch (URISyntaxException e) {
             log.error("Error processing payslip payment: {}", e.getMessage());
-            return new PaymentResponseDTO("", false);
+            return new PaymentResponseDTO(false);
         }
     }
 }

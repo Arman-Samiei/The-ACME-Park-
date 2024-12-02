@@ -1,0 +1,11 @@
+
+services:
+  payslip:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50500:5000"
+    extra_hosts:
+      - "extpayslip.com:0.0.0.0"
+      - "extpayslip.com:127.0.0.1"
