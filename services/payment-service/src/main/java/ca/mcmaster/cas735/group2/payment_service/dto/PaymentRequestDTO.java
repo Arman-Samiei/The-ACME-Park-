@@ -4,7 +4,7 @@ public record PaymentRequestDTO(
     String id,
     String gateId,
     String staffId,
-    String licensePlate,
+    String plateNumber,
     String ccNumber,
     String ccExpiry,
     String ccCVC,

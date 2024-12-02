@@ -25,10 +25,10 @@ public class AMQPReceiveFinesListener {
 
     // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "fines.payment.response", durable = "true"),
+            value = @Queue(value = "fines.payment.response.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "fines.payment.response"))
     private void receive(String data, Channel channel, long tag) {
         ExistingFinesDTO existingFinesDTO = convertToDTO(data);
 

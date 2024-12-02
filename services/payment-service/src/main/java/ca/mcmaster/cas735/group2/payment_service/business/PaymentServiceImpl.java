@@ -4,6 +4,7 @@ import ca.mcmaster.cas735.group2.payment_service.business.entity.Order;
 import ca.mcmaster.cas735.group2.payment_service.business.entity.PaymentType;
 import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
 import ca.mcmaster.cas735.group2.payment_service.dto.GateActionDTO;
+import ca.mcmaster.cas735.group2.payment_service.dto.NotifyFineDTO;
 import ca.mcmaster.cas735.group2.payment_service.dto.OutgoingBankPaymentRequestDTO;
 import ca.mcmaster.cas735.group2.payment_service.dto.OutgoingPayslipPaymentRequestDTO;
 import ca.mcmaster.cas735.group2.payment_service.dto.PaymentRequestDTO;
@@ -11,6 +12,7 @@ import ca.mcmaster.cas735.group2.payment_service.dto.PaymentResponseDTO;
 import ca.mcmaster.cas735.group2.payment_service.dto.PermitOrderDTO;
 import ca.mcmaster.cas735.group2.payment_service.ports.BankConnection;
 import ca.mcmaster.cas735.group2.payment_service.ports.DetermineFines;
+import ca.mcmaster.cas735.group2.payment_service.ports.NotifyFines;
 import ca.mcmaster.cas735.group2.payment_service.ports.OrderDataRepository;
 import ca.mcmaster.cas735.group2.payment_service.ports.PaymentActivity;
 import ca.mcmaster.cas735.group2.payment_service.ports.PayslipConnection;
@@ -31,6 +33,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
     private final DetermineFines determineFines;
     private final BankConnection bankConnection;
     private final PayslipConnection payslipConnection;
+    private final NotifyFines notifyFines;
     private final VisitorExit visitorExit;
     private final PermitPurchase permitPurchase;
 
@@ -39,12 +42,14 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
                               DetermineFines determineFines,
                               BankConnection bankConnection,
                               PayslipConnection payslipConnection,
+                              NotifyFines notifyFines,
                               VisitorExit visitorExit,
                               PermitPurchase permitPurchase) {
         this.ordersDatabase = ordersDatabase;
         this.determineFines = determineFines;
         this.bankConnection = bankConnection;
         this.payslipConnection = payslipConnection;
+        this.notifyFines = notifyFines;
         this.visitorExit = visitorExit;
         this.permitPurchase = permitPurchase;
     }
@@ -66,7 +71,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         order.setCcNumber(paymentRequestDTO.ccNumber());
         order.setCcCVC(paymentRequestDTO.ccCVC());
         order.setCcExpiry(paymentRequestDTO.ccExpiry());
-        order.setLicensePlate(paymentRequestDTO.licensePlate());
+        order.setPlateNumber(paymentRequestDTO.plateNumber());
         order.setGateId(paymentRequestDTO.gateId());
         order.setAmount(paymentAmount);
         order.setPaymentType(paymentType);
@@ -75,7 +80,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
 
         determineFines.requestFineAmount(new ExistingFinesDTO(
                 paymentRequestDTO.id(),
-                paymentRequestDTO.licensePlate(),
+                paymentRequestDTO.plateNumber(),
                 0)
         );
     }
@@ -108,12 +113,15 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         order.setPaid(true);
         ordersDatabase.saveAndFlush(order);
 
+        if (existingFinesDTO.fineAmount() > 0) {
+            notifyFines.sendFineNotification(new NotifyFineDTO(order.getPlateNumber(), true));
+        }
+
         if (order.getPaymentType() == PaymentType.VISITOR_EXIT) {
             visitorExit.processVisitorExit(new GateActionDTO(paymentResponseDTO.success(), order.getGateId()));
         } else if (order.getPaymentType() == PaymentType.NEW_PERMIT) {
-            permitPurchase.processPermitPurchase(new PermitOrderDTO(order.getLicensePlate(), paymentResponseDTO.success()));
+            permitPurchase.processPermitPurchase(new PermitOrderDTO(order.getPlateNumber(), paymentResponseDTO.success()));
         }
-
     }
 
     private double getPaymentAmountForParking(int hoursOccupied) {

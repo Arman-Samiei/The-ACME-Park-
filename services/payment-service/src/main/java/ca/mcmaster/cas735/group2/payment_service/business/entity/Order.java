@@ -13,7 +13,7 @@ public class Order {
     @Id
     private String id;
     private String staffId;
-    private String licensePlate;
+    private String plateNumber;
     private String ccNumber;
     private String ccExpiry;
     private String ccCVC;

@@ -1,7 +1,7 @@
 package ca.mcmaster.cas735.group2.payment_service.adapter;
 
-import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
-import ca.mcmaster.cas735.group2.payment_service.ports.DetermineFines;
+import ca.mcmaster.cas735.group2.payment_service.dto.NotifyFineDTO;
+import ca.mcmaster.cas735.group2.payment_service.ports.NotifyFines;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPDetermineFinesSender implements DetermineFines {
+public class AMQPNotifyFinesSender implements NotifyFines {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AMQPDetermineFinesSender(RabbitTemplate rabbitTemplate) {
+    public AMQPNotifyFinesSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -24,15 +24,15 @@ public class AMQPDetermineFinesSender implements DetermineFines {
     private String exchange;
 
     @Override
-    public void requestFineAmount(ExistingFinesDTO existingFinesDTO) {
-        log.info("Checking fines for: {}", existingFinesDTO);
-        rabbitTemplate.convertAndSend(exchange, "fines.payment.request", translate(existingFinesDTO));
+    public void sendFineNotification(NotifyFineDTO notifyFineDTO) {
+        log.info("Telling fine was paid: {}", notifyFineDTO);
+        rabbitTemplate.convertAndSend(exchange, "fines.update", translate(notifyFineDTO));
     }
 
-    private String translate(ExistingFinesDTO existingFinesDTO) {
+    private String translate(NotifyFineDTO notifyFineDTO) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.writeValueAsString(existingFinesDTO);
+            return mapper.writeValueAsString(notifyFineDTO);
         } catch (Exception e){
             throw new RuntimeException(e);
         }

@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AMQPVisitorValidationSender implements ValidateVisitorExit {
+public class AMQPValidationVisitorSender implements ValidateVisitorExit {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AMQPVisitorValidationSender(RabbitTemplate rabbitTemplate) {
+    public AMQPValidationVisitorSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 

@@ -57,10 +57,10 @@ public class EntryGateServiceImpl implements
     @Override
     public void sendVisitorLotResponse(VisitorGateLotResponseDTO visitorGateLotResponseDTO) {
         if (!visitorGateLotResponseDTO.spotID().isEmpty()) {
-            forwardGateAction.sendGateAction(new GateActionDTO(true, visitorGateLotResponseDTO.lotID(), visitorGateLotResponseDTO.spotID()));
-            lotStatistics.updateEntryLotStatistics(visitorGateLotResponseDTO.lotID());
+            forwardGateAction.sendGateAction(new GateActionDTO(true, visitorGateLotResponseDTO.lotID(), visitorGateLotResponseDTO.spotID(), true));
+            lotStatistics.updateEntryLotStatistics(new UpdateLotStatisticsDTO(visitorGateLotResponseDTO.spotID(), true));
         } else {
-            forwardValidationToGate(new GateActionDTO(false, visitorGateLotResponseDTO.lotID(), ""));
+            forwardValidationToGate(new GateActionDTO(false, visitorGateLotResponseDTO.lotID(), "", true));
         }
     }
 
@@ -68,7 +68,7 @@ public class EntryGateServiceImpl implements
     public void forwardValidationToGate(GateActionDTO gateActionDTO) {
         forwardGateAction.sendGateAction(gateActionDTO);
         if (gateActionDTO.shouldOpen()) {
-            lotStatistics.updateEntryLotStatistics(gateActionDTO.gateId());
+            lotStatistics.updateEntryLotStatistics(new UpdateLotStatisticsDTO(gateActionDTO.spotID(), true));
         }
     }
 }
