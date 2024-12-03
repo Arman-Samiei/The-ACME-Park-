@@ -16,7 +16,7 @@ public class PermitLotRequestData {
 
     public PermitLotRequestData(PermitData permitData, String spotReservationStatus) {
         this.lotID = permitData.getLotID();
-        this.customerType = permitData.getCustomerType();
+        this.customerType = permitData.getMemberRole();
         this.plateNumber = permitData.getPlateNumber();
         this.spotReservationStatus = spotReservationStatus;
     }

@@ -7,22 +7,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PermitIssuanceRequestData {
-
     private String transponderID;
-
     private String plateNumber;
-
     private String firstName;
-
     private String lastName;
-
     private String employeeID;
-
     private String lotID;
-
-    private String paymentType;
-
-    private String cardNumber;
+    private String memberPaymentType;
+    private String ccNumber;
+    private String ccExpiry;
+    private String ccCVC;
+    private Integer monthsPurchased;
 
     public PermitData asPermitData() {
         PermitData result = new PermitData();
@@ -32,13 +27,16 @@ public class PermitIssuanceRequestData {
         result.setLastName(this.lastName);
         result.setEmployeeID(this.employeeID);
         result.setLotID(this.lotID);
-        result.setPaymentType(this.paymentType);
-        result.setCardNumber(this.cardNumber);
+        result.setMemberPaymentType(this.memberPaymentType);
+        result.setCcNumber(this.ccNumber);
+        result.setCcCVC(this.ccCVC);
+        result.setCcExpiry(this.ccExpiry);
+        result.setMonthsPurchased(this.monthsPurchased);
         result.setStatus("pending");
         switch (transponderID.charAt(0)) {
-            case 's' -> result.setCustomerType("student");
-            case 'f' -> result.setCustomerType("faculty");
-            default -> result.setCustomerType("staff");
+            case 's' -> result.setMemberRole("student");
+            case 'f' -> result.setMemberRole("faculty");
+            default -> result.setMemberRole("staff");
         }
 
         return result;

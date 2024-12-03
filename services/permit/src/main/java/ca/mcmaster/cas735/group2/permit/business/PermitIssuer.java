@@ -37,17 +37,18 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
 
     @Override
     public void issue(PermitIssuanceRequestData permitIssuanceRequestData) {
-        String paymentType = permitIssuanceRequestData.getPaymentType();
         PermitData permitData = permitIssuanceRequestData.asPermitData();
-        String customerType = permitData.getCustomerType();
+        String memberPaymentType = permitData.getMemberPaymentType();
+        String customerType = permitData.getMemberRole();
         String transponderID = permitData.getTransponderID();
-        if (Objects.equals(customerType, "student") && Objects.equals(paymentType, "Uni")) {
+        Integer monthsPurchased = permitData.getMonthsPurchased();
+        if (Objects.equals(customerType, "student") && Objects.equals(memberPaymentType, "payslip")) {
             String response = String.format("%s is for a student and does not have a payslip.", transponderID);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
             log.debug(response);
             return;
         }
-        permitData.setExpirationTime(LocalDateTime.now().plusDays(30));
+        permitData.setExpirationTime(LocalDateTime.now().plusMonths(monthsPurchased));
         database.saveAndFlush(permitData);
         lotRequest.requestSpot(new PermitLotRequestData(permitData, "pending"));
     }
@@ -58,6 +59,10 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         String spotID = permitLotResponseData.getSpotID();
         String lotID = permitLotResponseData.getLotID();
         PermitData permitData = database.findByPlateNumber(plateNumber);
+        String memberPaymentType = permitData.getMemberPaymentType();
+        String employeeID = permitData.getEmployeeID();
+        String staffID = getStaffID(memberPaymentType, employeeID);
+
         if (spotID.isEmpty()) {
             String response = String.format("There is no space left for %s at lot %s.", plateNumber, lotID);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
@@ -66,12 +71,12 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         }
         permitData.setSpotID(spotID);
         database.saveAndFlush(permitData);
-        paymentRequest.requestPayment(new PaymentRequestData(permitData.getPlateNumber()));
+        paymentRequest.requestPayment(new PaymentRequestData(permitData, staffID));
     }
 
     @Override
     public void receivePaymentResponse(PaymentResponseData paymentResponseData) {
-        Boolean wasSuccessful = paymentResponseData.getWasSuccessful();
+        Boolean wasSuccessful = paymentResponseData.getSuccess();
         PermitData permitData = database.findByPlateNumber(paymentResponseData.getPlateNumber());
         if (!wasSuccessful) {
             String response = String.format("payment unsuccessful for %s", permitData.getTransponderID());
@@ -86,6 +91,12 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         lotRequest.requestSpot(new PermitLotRequestData(permitData, "confirmed"));
         permitIssuanceResponse.sendPermitIssuanceResponse(response);
 
+    }
+
+    private String getStaffID(String memberPaymentType, String employeeID) {
+        if (Objects.equals(memberPaymentType, "payslip"))
+            return employeeID;
+        return null;
     }
 
 }

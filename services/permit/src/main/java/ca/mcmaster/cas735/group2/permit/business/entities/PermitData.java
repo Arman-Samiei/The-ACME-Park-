@@ -5,7 +5,6 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-
 @Entity @Data public class PermitData {
     @Id
     private String transponderID;
@@ -24,11 +23,17 @@ import java.time.LocalDateTime;
 
     private String status;
 
-    private String paymentType;
+    private String memberPaymentType;
 
-    private String customerType;
+    private String memberRole;
 
-    private String cardNumber;
+    private String ccNumber;
+
+    private String ccExpiry;
+
+    private String ccCVC;
+
+    private Integer monthsPurchased;
 
     private LocalDateTime expirationTime;
 }
