@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class FinesIssuanceData {
     String plateNumber;
     Double amount;
+
     public FinesData toFinesData() {
         FinesData finesData = new FinesData();
         finesData.setPlateNumber(plateNumber);

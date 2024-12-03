@@ -27,7 +27,7 @@ public class FinesCalculationResponseAdapter implements FinesCalculationResponse
     @Override
     public void sendResponse(FinesCalculationResponseData finesCalculationResponseData) {
         log.debug("Sending message to {}: {}", exchange, finesCalculationResponseData);
-        rabbitTemplate.convertAndSend(exchange, "fines", translate(finesCalculationResponseData));
+        rabbitTemplate.convertAndSend(exchange, "fines.payment.response", translate(finesCalculationResponseData));
     }
 
 

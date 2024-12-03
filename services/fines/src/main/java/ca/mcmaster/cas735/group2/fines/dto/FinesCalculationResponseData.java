@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class FinesCalculationResponseData {
+    String id;
     String plateNumber;
     Double amount;
-    public FinesCalculationResponseData (String plateNumber, Double amount){
+    public FinesCalculationResponseData (String id, String plateNumber, Double amount){
+        this.id = id;
         this.plateNumber = plateNumber;
         this.amount = amount;
 
