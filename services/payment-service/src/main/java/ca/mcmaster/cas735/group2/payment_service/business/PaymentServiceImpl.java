@@ -72,7 +72,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         order.setCcCVC(paymentRequestDTO.ccCVC());
         order.setCcExpiry(paymentRequestDTO.ccExpiry());
         order.setPlateNumber(paymentRequestDTO.plateNumber());
-        order.setLotId(paymentRequestDTO.lotId());
+        order.setLotID(paymentRequestDTO.lotID());
         order.setAmount(paymentAmount);
         order.setPaymentType(paymentType);
         order.setPaid(false);
@@ -118,7 +118,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         }
 
         if (order.getPaymentType() == PaymentType.VISITOR_EXIT) {
-            visitorExit.processVisitorExit(new GateActionDTO(paymentResponseDTO.success(), order.getLotId()));
+            visitorExit.processVisitorExit(new GateActionDTO(paymentResponseDTO.success(), order.getLotID()));
         } else if (order.getPaymentType() == PaymentType.NEW_PERMIT) {
             permitPurchase.processPermitPurchase(new PermitOrderDTO(order.getPlateNumber(), paymentResponseDTO.success()));
         }
