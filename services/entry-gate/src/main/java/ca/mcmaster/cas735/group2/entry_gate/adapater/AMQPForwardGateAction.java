@@ -26,7 +26,7 @@ public class AMQPForwardGateAction implements ForwardGateAction {
     @Override
     public void sendGateAction(GateActionDTO gateActionDTO) {
         log.info("Sending gate action {} to commit action", translate(gateActionDTO));
-        rabbitTemplate.convertAndSend(exchange, gateActionDTO.lotId() + ".entry.action", gateActionDTO);
+        rabbitTemplate.convertAndSend(exchange, gateActionDTO.lotID() + ".entry.action", gateActionDTO);
     }
 
     private String translate(GateActionDTO gateActionDTO) {

@@ -1,6 +1,6 @@
 package ca.mcmaster.cas735.group2.entry_gate.dto;
 
 public record UpdateLotStatisticsDTO(
-        String spotId,
+        String spotID,
         boolean isSpotOccupied
 ) {}
