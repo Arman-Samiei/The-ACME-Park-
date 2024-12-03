@@ -1,5 +1,6 @@
 package ca.mcmaster.cas735.group2.payment_service.business.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,6 +18,7 @@ public class Order {
     private String ccNumber;
     private String ccExpiry;
     private String ccCVC;
+    @Column(name = "LOT_ID")
     private String lotID;
     private double amount;
     private PaymentType paymentType;
