@@ -49,7 +49,7 @@ public class EntryGateServiceImpl implements
         VisitorGateRequestForLotDTO visitorGateRequestForLotDTO = new VisitorGateRequestForLotDTO(
                 visitorGateActionDTO.lotId(),
                 "visitor",
-                visitorGateActionDTO.licencePlate()
+                visitorGateActionDTO.plateNumber()
         );
         validateVisitorEntry.sendVisitorEntryValidationRequest(visitorGateRequestForLotDTO);
     }
