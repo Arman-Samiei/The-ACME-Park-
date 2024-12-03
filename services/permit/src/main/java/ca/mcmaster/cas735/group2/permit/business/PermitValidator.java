@@ -31,9 +31,9 @@ public class PermitValidator implements PermitValidationRequest {
         PermitData permitData = database.findByPlateNumber(plateNumber);
         PermitValidationResponseData permitValidationResponseData;
         if (permitData != null && Objects.equals(permitData.getLotID(), lotID) && Objects.equals(permitData.getStatus(), "issued"))
-            permitValidationResponseData = new PermitValidationResponseData(true, String.format("The permit associated with the plate number %s is valid", plateNumber));
+            permitValidationResponseData = new PermitValidationResponseData(true, lotID);
         else
-            permitValidationResponseData = new PermitValidationResponseData(false, String.format("The permit associated with the plate number %s is not valid. FUCK OFF!", plateNumber));
+            permitValidationResponseData = new PermitValidationResponseData(false, lotID);
         permitValidationResponse.sendValidationResult(permitValidationResponseData);
     }
 
