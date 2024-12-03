@@ -1,6 +1,7 @@
 package ca.mcmaster.cas735.group2.permit.dto;
 
 import ca.mcmaster.cas735.group2.permit.business.entities.PermitData;
+import ca.mcmaster.cas735.group2.permit.utils.Constants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,11 +33,11 @@ public class PermitIssuanceRequestData {
         result.setCcCVC(this.ccCVC);
         result.setCcExpiry(this.ccExpiry);
         result.setMonthsPurchased(this.monthsPurchased);
-        result.setStatus("pending");
+        result.setStatus(Constants.PENDING_PERMIT_STATUS);
         switch (transponderID.charAt(0)) {
-            case 's' -> result.setMemberRole("student");
-            case 'f' -> result.setMemberRole("faculty");
-            default -> result.setMemberRole("staff");
+            case 's' -> result.setMemberRole(Constants.STUDENT_MEMBER_ROLE);
+            case 'f' -> result.setMemberRole(Constants.FACULTY_MEMBER_ROLE);
+            default -> result.setMemberRole(Constants.STAFF_MEMBER_ROLE);
         }
 
         return result;

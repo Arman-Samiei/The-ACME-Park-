@@ -1,6 +1,7 @@
 package ca.mcmaster.cas735.group2.permit.dto;
 
 import ca.mcmaster.cas735.group2.permit.business.entities.PermitData;
+import ca.mcmaster.cas735.group2.permit.utils.Constants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class PaymentRequestData {
     private String plateNumber;
 
-    private String paymentType = "NEW_PERMIT";
+    private String paymentType = Constants.PAYMENT_SERVICE_REQUEST_TYPE;
     private String staffId;
     private String ccNumber;
     private String ccExpiry;

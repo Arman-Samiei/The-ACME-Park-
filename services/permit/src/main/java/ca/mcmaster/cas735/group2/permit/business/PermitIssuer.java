@@ -9,12 +9,14 @@ import ca.mcmaster.cas735.group2.permit.ports.required.LotRequest;
 import ca.mcmaster.cas735.group2.permit.ports.required.PaymentRequest;
 import ca.mcmaster.cas735.group2.permit.ports.required.PermitIssuanceResponse;
 import ca.mcmaster.cas735.group2.permit.ports.required.PermitRepository;
+import ca.mcmaster.cas735.group2.permit.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+
 
 @Service
 @Slf4j
@@ -39,10 +41,10 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
     public void issue(PermitIssuanceRequestData permitIssuanceRequestData) {
         PermitData permitData = permitIssuanceRequestData.asPermitData();
         String memberPaymentType = permitData.getMemberPaymentType();
-        String customerType = permitData.getMemberRole();
+        String memberRole = permitData.getMemberRole();
         String transponderID = permitData.getTransponderID();
         Integer monthsPurchased = permitData.getMonthsPurchased();
-        if (Objects.equals(customerType, "student") && Objects.equals(memberPaymentType, "payslip")) {
+        if (Objects.equals(memberRole, Constants.STUDENT_MEMBER_ROLE) && Objects.equals(memberPaymentType, Constants.PAYSLIP_MEMBER_PAYMENT_TYPE)) {
             String response = String.format("%s is for a student and does not have a payslip.", transponderID);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
             log.debug(response);
@@ -50,7 +52,7 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         }
         permitData.setExpirationTime(LocalDateTime.now().plusMonths(monthsPurchased));
         database.saveAndFlush(permitData);
-        lotRequest.requestSpot(new PermitLotRequestData(permitData, "pending"));
+        lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.PENDING_SPOT_RESERVATION_STATUS));
     }
 
     @Override
@@ -81,20 +83,20 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         if (!wasSuccessful) {
             String response = String.format("payment unsuccessful for %s", permitData.getTransponderID());
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
-            lotRequest.requestSpot(new PermitLotRequestData(permitData, "notConfirmed"));
+            lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.NOT_CONFIRMED_SPOT_RESERVATION_STATUS));
             database.delete(permitData);
             return;
         }
-        permitData.setStatus("issued");
+        permitData.setStatus(Constants.ISSUED_PERMIT_STATUS);
         database.saveAndFlush(permitData);
         String response = String.format("permit successfully issued for %s", permitData.getTransponderID());
-        lotRequest.requestSpot(new PermitLotRequestData(permitData, "confirmed"));
+        lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.CONFIRMED_SPOT_RESERVATION_STATUS));
         permitIssuanceResponse.sendPermitIssuanceResponse(response);
 
     }
 
     private String getStaffID(String memberPaymentType, String employeeID) {
-        if (Objects.equals(memberPaymentType, "payslip"))
+        if (Objects.equals(memberPaymentType, Constants.PAYSLIP_MEMBER_PAYMENT_TYPE))
             return employeeID;
         return null;
     }

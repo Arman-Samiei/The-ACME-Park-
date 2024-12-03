@@ -4,6 +4,8 @@ import ca.mcmaster.cas735.group2.permit.business.entities.PermitData;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static ca.mcmaster.cas735.group2.permit.utils.Constants.LOT_SERVICE_REQUEST_SENDER;
+
 @Data
 @NoArgsConstructor
 public class PermitLotRequestData {
@@ -12,7 +14,7 @@ public class PermitLotRequestData {
     String plateNumber;
     String spotReservationStatus;
 
-    String requestSender = "permit";
+    String requestSender = LOT_SERVICE_REQUEST_SENDER;
 
     public PermitLotRequestData(PermitData permitData, String spotReservationStatus) {
         this.lotID = permitData.getLotID();
