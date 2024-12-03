@@ -22,7 +22,7 @@ public class LotResponseAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.permit.lot.response.queue", durable = "true"),
+            value = @Queue(value = "voucher.lot.response.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "voucher.lot.response"))
     public void listen(String data) {

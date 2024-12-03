@@ -23,7 +23,7 @@ public class PermitValidationRequestAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.permit.entry.validation.queue", durable = "true"),
+            value = @Queue(value = "permit.entry.validation.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "permit.entry.validation"))
     public void listen(String data) {

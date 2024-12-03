@@ -22,7 +22,7 @@ public class PaymentResponseAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.permit.payment.response.queue", durable = "true"),
+            value = @Queue(value = "permit.payment.response.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "permit.payment.response"))
     public void listen(String data) {

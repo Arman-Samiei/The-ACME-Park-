@@ -22,7 +22,7 @@ public class FinesCalculationRequestAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.fines.calculator.request.queue", durable = "true"),
+            value = @Queue(value = "fines.payment.request.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "fines.payment.request"))
     public void listen(String data) {

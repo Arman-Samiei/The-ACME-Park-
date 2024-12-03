@@ -22,7 +22,7 @@ public class PermitIssuanceRequestAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.permit.issue.request.queue", durable = "true"),
+            value = @Queue(value = "permit.issue.request.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "permit.issue.request"))
     public void listen(String data) {

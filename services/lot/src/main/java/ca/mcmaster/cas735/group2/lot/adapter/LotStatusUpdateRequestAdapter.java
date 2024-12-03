@@ -22,7 +22,7 @@ public class LotStatusUpdateRequestAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.lot.update.status.request.queue", durable = "true"),
+            value = @Queue(value = "lot.update.status.request.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "lot.update.status.request"))
     public void listen(String data) {

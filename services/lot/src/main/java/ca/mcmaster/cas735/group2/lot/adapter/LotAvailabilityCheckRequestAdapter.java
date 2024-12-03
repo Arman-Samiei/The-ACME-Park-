@@ -23,7 +23,7 @@ public class LotAvailabilityCheckRequestAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "pac.exchange.spot.availability.request.queue", durable = "true"),
+            value = @Queue(value = "spot.availability.request.queue", durable = "true"),
             exchange = @Exchange(value = "${app.custom.messaging.exchange-topic}", type = "topic"),
             key = "spot.availability.request"))
     public void listen(String data) {

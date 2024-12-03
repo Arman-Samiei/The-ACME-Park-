@@ -25,7 +25,7 @@ public class AMQPPermitPurchaseSender implements PermitPurchase {
 
     public void processPermitPurchase(PermitOrderDTO permitOrderDTO) {
         log.info("Sending permit purchase: {}", permitOrderDTO);
-        rabbitTemplate.convertAndSend(exchange, "permit.purchase", translate(permitOrderDTO));
+        rabbitTemplate.convertAndSend(exchange, "permit.payment.response", translate(permitOrderDTO));
     }
 
     private String translate(PermitOrderDTO permitOrderDTO) {
