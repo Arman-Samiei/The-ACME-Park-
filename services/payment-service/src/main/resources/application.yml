@@ -22,8 +22,8 @@ server:
 
 app:
   exchange: pac.exchange
-  bank-route: http://extbank.com/bank/request
-  payslip-route: http://extpayslip.com/payslip/request
+  bank-route: localhost:50000/bank/request
+  payslip-route: localhost:50500/payslip/request
 
 management:
   info:

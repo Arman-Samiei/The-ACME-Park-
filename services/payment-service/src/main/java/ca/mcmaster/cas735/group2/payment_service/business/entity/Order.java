@@ -17,7 +17,7 @@ public class Order {
     private String ccNumber;
     private String ccExpiry;
     private String ccCVC;
-    private String gateId;
+    private String lotId;
     private double amount;
     private PaymentType paymentType;
     private boolean isPaid;

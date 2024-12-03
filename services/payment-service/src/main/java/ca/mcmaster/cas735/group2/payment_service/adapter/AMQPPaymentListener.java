@@ -23,12 +23,11 @@ public class AMQPPaymentListener {
         this.paymentActivity = paymentActivity;
     }
 
-    // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "payment.activity.request", durable = "true"),
+            value = @Queue(value = "payment.activity.request.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
-            key = "*"))
+            key = "payment.activity.request"))
     private void receive(String data, Channel channel, long tag) {
         PaymentRequestDTO paymentRequestDTO = convertToDTO(data);
 

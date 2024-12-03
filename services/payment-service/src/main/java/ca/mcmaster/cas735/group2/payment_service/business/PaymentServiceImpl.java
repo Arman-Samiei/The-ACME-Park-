@@ -66,20 +66,20 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         }
 
         Order order = new Order();
-        order.setId(paymentRequestDTO.id() + "-" + UUID.randomUUID());
+        order.setId(String.valueOf(UUID.randomUUID()));
         order.setStaffId(paymentRequestDTO.staffId());
         order.setCcNumber(paymentRequestDTO.ccNumber());
         order.setCcCVC(paymentRequestDTO.ccCVC());
         order.setCcExpiry(paymentRequestDTO.ccExpiry());
         order.setPlateNumber(paymentRequestDTO.plateNumber());
-        order.setGateId(paymentRequestDTO.gateId());
+        order.setLotId(paymentRequestDTO.lotId());
         order.setAmount(paymentAmount);
         order.setPaymentType(paymentType);
         order.setPaid(false);
         ordersDatabase.saveAndFlush(order);
 
         determineFines.requestFineAmount(new ExistingFinesDTO(
-                paymentRequestDTO.id(),
+                order.getId(),
                 paymentRequestDTO.plateNumber(),
                 0)
         );
@@ -118,7 +118,7 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         }
 
         if (order.getPaymentType() == PaymentType.VISITOR_EXIT) {
-            visitorExit.processVisitorExit(new GateActionDTO(paymentResponseDTO.success(), order.getGateId()));
+            visitorExit.processVisitorExit(new GateActionDTO(paymentResponseDTO.success(), order.getLotId()));
         } else if (order.getPaymentType() == PaymentType.NEW_PERMIT) {
             permitPurchase.processPermitPurchase(new PermitOrderDTO(order.getPlateNumber(), paymentResponseDTO.success()));
         }

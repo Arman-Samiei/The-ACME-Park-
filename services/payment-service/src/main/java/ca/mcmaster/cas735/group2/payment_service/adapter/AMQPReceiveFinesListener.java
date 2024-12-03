@@ -23,7 +23,6 @@ public class AMQPReceiveFinesListener {
         this.receiveFines = receiveFines;
     }
 
-    // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "fines.payment.response.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",

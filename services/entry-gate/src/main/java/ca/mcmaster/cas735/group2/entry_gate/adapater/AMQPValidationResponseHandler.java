@@ -23,7 +23,6 @@ public class AMQPValidationResponseHandler {
         this.validationResponseHandler = validationResponseHandler;
     }
 
-    // TODO: Check if private works with @RabbitListener annotation
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "gate.entry.action.queue", durable = "true"),
             exchange = @Exchange(value = "${app.exchange}",

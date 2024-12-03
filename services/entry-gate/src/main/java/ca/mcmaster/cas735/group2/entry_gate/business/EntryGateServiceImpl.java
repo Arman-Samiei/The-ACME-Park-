@@ -47,7 +47,7 @@ public class EntryGateServiceImpl implements
     @Override
     public void receiveVisitorGateActivity(VisitorGateActionDTO visitorGateActionDTO) {
         VisitorGateRequestForLotDTO visitorGateRequestForLotDTO = new VisitorGateRequestForLotDTO(
-                visitorGateActionDTO.gateId(),
+                visitorGateActionDTO.lotId(),
                 "visitor",
                 visitorGateActionDTO.licencePlate()
         );
