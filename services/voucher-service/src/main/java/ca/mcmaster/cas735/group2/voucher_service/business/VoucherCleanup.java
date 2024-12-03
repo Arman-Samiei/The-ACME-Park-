@@ -13,14 +13,14 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PermitCleanup {
+public class VoucherCleanup {
 
     private final VoucherRepository database;
 
     private final ReleaseSpotRequest releaseSpotRequest;
 
     @Autowired
-    public PermitCleanup(VoucherRepository database, ReleaseSpotRequest releaseSpotRequest) {
+    public VoucherCleanup(VoucherRepository database, ReleaseSpotRequest releaseSpotRequest) {
         this.database = database;
         this.releaseSpotRequest = releaseSpotRequest;
     }
