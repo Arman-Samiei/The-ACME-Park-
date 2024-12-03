@@ -31,9 +31,9 @@ public class VoucherValidator implements VoucherValidationRequest {
         VoucherData voucherData = database.findByPlateNumber(plateNumber);
         VoucherValidationResponseData voucherValidationResponseData;
         if (voucherData != null && Objects.equals(voucherData.getLotID(), lotID))
-            voucherValidationResponseData = new VoucherValidationResponseData(true, String.format("The voucher with plateNumber %s is valid", plateNumber));
+            voucherValidationResponseData = new VoucherValidationResponseData(true, lotID);
         else
-            voucherValidationResponseData = new VoucherValidationResponseData(false, String.format("The voucher with plateNumber %s is not valid. FUCK OFF!", plateNumber));
+            voucherValidationResponseData = new VoucherValidationResponseData(false, lotID);
         voucherValidationResponse.sendValidationResult(voucherValidationResponseData);
     }
 
