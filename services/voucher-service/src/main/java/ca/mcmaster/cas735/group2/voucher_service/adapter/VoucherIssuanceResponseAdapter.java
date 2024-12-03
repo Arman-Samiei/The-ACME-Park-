@@ -28,7 +28,7 @@ public class VoucherIssuanceResponseAdapter implements VoucherIssuanceResponse {
         rabbitTemplate.convertAndSend(exchange, "voucher.issue.response", response);
     }
 
-    @Bean(name = "issuanceOutbound")
+    @Bean(name = "voucherIssuanceResponseOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);

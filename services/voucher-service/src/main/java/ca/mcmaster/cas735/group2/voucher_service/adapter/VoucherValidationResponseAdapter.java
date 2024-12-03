@@ -32,7 +32,7 @@ public class VoucherValidationResponseAdapter implements VoucherValidationRespon
     }
 
 
-    @Bean(name = "validationOutbound")
+    @Bean(name = "voucherValidationResponseOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);

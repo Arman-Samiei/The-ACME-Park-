@@ -31,7 +31,7 @@ public class LotRequestAdapter implements LotRequest {
     }
 
 
-    @Bean(name = "lotOutbound")
+    @Bean(name = "permitLotRequestOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);

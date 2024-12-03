@@ -32,7 +32,7 @@ public class PermitValidationResponseAdapter implements PermitValidationResponse
     }
 
 
-    @Bean(name = "validationOutbound")
+    @Bean(name = "permitValidationResponseOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);

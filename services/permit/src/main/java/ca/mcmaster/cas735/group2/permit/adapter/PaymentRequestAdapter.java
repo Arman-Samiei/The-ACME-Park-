@@ -31,7 +31,7 @@ public class PaymentRequestAdapter implements PaymentRequest {
     }
 
 
-    @Bean(name = "paymentOutbound")
+    @Bean(name = "paymentRequestOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);

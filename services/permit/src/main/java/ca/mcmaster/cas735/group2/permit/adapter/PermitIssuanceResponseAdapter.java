@@ -29,7 +29,7 @@ public class PermitIssuanceResponseAdapter implements PermitIssuanceResponse {
     }
 
 
-    @Bean(name = "issuanceOutbound")
+    @Bean(name = "permitIssuanceResponseOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);

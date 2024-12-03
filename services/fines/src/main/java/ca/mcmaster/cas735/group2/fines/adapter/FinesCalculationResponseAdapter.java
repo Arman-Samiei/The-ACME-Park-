@@ -31,7 +31,7 @@ public class FinesCalculationResponseAdapter implements FinesCalculationResponse
     }
 
 
-    @Bean(name = "finesOutbound")
+    @Bean(name = "finesCalculationResponseOutbound")
     public TopicExchange outbound() {
         // this will create the outbound exchange if it does not exist
         return new TopicExchange(exchange);
