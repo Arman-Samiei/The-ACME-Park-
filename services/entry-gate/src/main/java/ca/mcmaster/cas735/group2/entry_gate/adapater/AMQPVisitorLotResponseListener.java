@@ -28,7 +28,7 @@ public class AMQPVisitorLotResponseListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "visitor.lot.response"))
-    private void receive(String data, Channel channel) {
+    public void receive(String data, Channel channel) {
         VisitorGateLotResponseDTO visitorGateRequestForLotDTO = convertToDTO(data);
         log.info("Received lot response for visitor: {} - channel: {}", visitorGateRequestForLotDTO, channel);
         visitorLotResponse.sendVisitorLotResponse(visitorGateRequestForLotDTO);
