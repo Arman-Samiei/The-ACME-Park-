@@ -9,6 +9,10 @@ info:
   application:
     name: '@project.name@ (local deployment)'
 
+app:
+  bank-route: http://localhost:50000/bank/request
+  payslip-route: http://localhost:50500/payslip/request
+
 eureka:
   client:
     serviceUrl:

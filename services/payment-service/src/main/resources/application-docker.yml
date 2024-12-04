@@ -9,6 +9,10 @@ info:
   application:
     name: '@project.name@ (docker deployment)'
 
+app:
+  bank-route: http://bank:5000/bank/request
+  payslip-route: http://payslip:5000/payslip/request
+
 eureka:
   client:
     serviceUrl:

@@ -22,8 +22,6 @@ server:
 
 app:
   exchange: pac.exchange
-  bank-route: localhost:50000/bank/request
-  payslip-route: localhost:50500/payslip/request
 
 management:
   info:
