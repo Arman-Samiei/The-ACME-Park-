@@ -2,23 +2,8 @@ package ca.mcmaster.cas735.group2.payment_service.business;
 
 import ca.mcmaster.cas735.group2.payment_service.business.entity.Order;
 import ca.mcmaster.cas735.group2.payment_service.business.entity.PaymentType;
-import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.GateActionDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.NotifyFineDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.OutgoingBankPaymentRequestDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.OutgoingPayslipPaymentRequestDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.PaymentRequestDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.PaymentResponseDTO;
-import ca.mcmaster.cas735.group2.payment_service.dto.PermitOrderDTO;
-import ca.mcmaster.cas735.group2.payment_service.ports.BankConnection;
-import ca.mcmaster.cas735.group2.payment_service.ports.DetermineFines;
-import ca.mcmaster.cas735.group2.payment_service.ports.NotifyFines;
-import ca.mcmaster.cas735.group2.payment_service.ports.OrderDataRepository;
-import ca.mcmaster.cas735.group2.payment_service.ports.PaymentActivity;
-import ca.mcmaster.cas735.group2.payment_service.ports.PayslipConnection;
-import ca.mcmaster.cas735.group2.payment_service.ports.PermitPurchase;
-import ca.mcmaster.cas735.group2.payment_service.ports.ReceiveFines;
-import ca.mcmaster.cas735.group2.payment_service.ports.VisitorExit;
+import ca.mcmaster.cas735.group2.payment_service.dto.*;
+import ca.mcmaster.cas735.group2.payment_service.ports.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,10 +63,9 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         order.setPaid(false);
         ordersDatabase.saveAndFlush(order);
 
-        determineFines.requestFineAmount(new ExistingFinesDTO(
+        determineFines.requestFineAmount(new FinesRequestDTO(
                 order.getId(),
-                paymentRequestDTO.plateNumber(),
-                0)
+                paymentRequestDTO.plateNumber())
         );
     }
 

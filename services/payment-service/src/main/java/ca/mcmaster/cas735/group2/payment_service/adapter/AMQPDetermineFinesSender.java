@@ -1,6 +1,6 @@
 package ca.mcmaster.cas735.group2.payment_service.adapter;
 
-import ca.mcmaster.cas735.group2.payment_service.dto.ExistingFinesDTO;
+import ca.mcmaster.cas735.group2.payment_service.dto.FinesRequestDTO;
 import ca.mcmaster.cas735.group2.payment_service.ports.DetermineFines;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +24,16 @@ public class AMQPDetermineFinesSender implements DetermineFines {
     private String exchange;
 
     @Override
-    public void requestFineAmount(ExistingFinesDTO existingFinesDTO) {
-        log.info("Checking fines for: {}", existingFinesDTO);
-        rabbitTemplate.convertAndSend(exchange, "fines.payment.request", translate(existingFinesDTO));
+    public void requestFineAmount(FinesRequestDTO finesRequestDTO) {
+        log.info("Checking fines for: {}", finesRequestDTO);
+        rabbitTemplate.convertAndSend(exchange, "fines.payment.request", translate(finesRequestDTO));
     }
 
-    private String translate(ExistingFinesDTO existingFinesDTO) {
+    private String translate(FinesRequestDTO finesRequestDTO) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.writeValueAsString(existingFinesDTO);
-        } catch (Exception e){
+            return mapper.writeValueAsString(finesRequestDTO);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
