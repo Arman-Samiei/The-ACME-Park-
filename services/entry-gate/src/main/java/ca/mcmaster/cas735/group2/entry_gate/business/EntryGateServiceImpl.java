@@ -1,7 +1,22 @@
 package ca.mcmaster.cas735.group2.entry_gate.business;
 
-import ca.mcmaster.cas735.group2.entry_gate.dto.*;
-import ca.mcmaster.cas735.group2.entry_gate.ports.*;
+import ca.mcmaster.cas735.group2.entry_gate.dto.GateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.TransponderGateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.UpdateLotStatisticsDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateLotResponseDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VisitorGateRequestForLotDTO;
+import ca.mcmaster.cas735.group2.entry_gate.dto.VoucherGateActionDTO;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ForwardGateAction;
+import ca.mcmaster.cas735.group2.entry_gate.ports.LotStatistics;
+import ca.mcmaster.cas735.group2.entry_gate.ports.TransponderGateActivity;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateTransponderEntry;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVisitorEntry;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ValidateVoucherEntry;
+import ca.mcmaster.cas735.group2.entry_gate.ports.ValidationResponseHandler;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorGateActivity;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VisitorLotResponse;
+import ca.mcmaster.cas735.group2.entry_gate.ports.VoucherGateActivity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

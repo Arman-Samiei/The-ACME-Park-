@@ -39,7 +39,7 @@ public class ExitGateServiceImpl implements TransponderGateActivity, VisitorGate
 
     @Override
     public void receiveTransponderGateActivity(TransponderGateActionDTO transponderGateActionDTO) {
-        processGateAction(new GateActionDTO(true, transponderGateActionDTO.lotID(), transponderGateActionDTO.spotID()));
+        forwardValidationToGate(new GateActionDTO(true, transponderGateActionDTO.lotID(), transponderGateActionDTO.spotID()));
     }
 
     @Override
@@ -53,6 +53,7 @@ public class ExitGateServiceImpl implements TransponderGateActivity, VisitorGate
                 new VisitorGateActionDTO(
                         visitorGateActionDTO.plateNumber(),
                         visitorGateActionDTO.lotID(),
+                        visitorGateActionDTO.spotID(),
                         visitorGateActionDTO.hoursOccupied(),
                         visitorGateActionDTO.ccNumber(),
                         visitorGateActionDTO.ccExpiry(),
@@ -62,7 +63,7 @@ public class ExitGateServiceImpl implements TransponderGateActivity, VisitorGate
     }
 
     @Override
-    public void processGateAction(GateActionDTO gateActionDTO) {
+    public void forwardValidationToGate(GateActionDTO gateActionDTO) {
         forwardGateAction.sendGateAction(gateActionDTO);
         if (gateActionDTO.shouldOpen()) {
             lotStatistics.updateExitLotStatistics(new UpdateLotStatisticsDTO(gateActionDTO.spotID(), false));
