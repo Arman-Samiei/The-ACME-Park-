@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -48,6 +49,12 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
             String response = String.format("%s is for a student and does not have a payslip.", transponderID);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
             log.debug(response);
+            return;
+        }
+        Optional<PermitData> existingPermitData = database.findById(transponderID);
+        if (existingPermitData.isPresent()) {
+            String response = String.format("Permit for the transponderID %s has already been issued", transponderID);
+            permitIssuanceResponse.sendPermitIssuanceResponse(response);
             return;
         }
         permitData.setExpirationTime(LocalDateTime.now().plusMonths(monthsPurchased));
