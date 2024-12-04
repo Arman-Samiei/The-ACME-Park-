@@ -1,4 +1,4 @@
-package ca.mcmaster.cas735.group2.admin;
+package ca.mcmaster.cas735.group2.member;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

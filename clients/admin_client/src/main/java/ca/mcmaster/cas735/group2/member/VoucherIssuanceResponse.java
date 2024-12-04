@@ -1,4 +1,4 @@
-package ca.mcmaster.cas735.group2.admin;
+package ca.mcmaster.cas735.group2.member;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;
