@@ -27,6 +27,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
 
     @Override
     public void checkLotAvailability(LotAvailabilityRequestData requestData) {
+        log.info("get data: {}", requestData);
         String requestSender = requestData.getRequestSender();
         String accessPassProcessingStatus = requestData.getAccessPassProcessingStatus();
 
@@ -86,6 +87,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
     }
 
     private void handleVisitorRequest(LotAvailabilityRequestData requestData) {
+        requestData.setCustomerType(Constants.SENDER_RECEIVER_VISITOR);
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
@@ -110,6 +112,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
     }
 
     private LotData findAvailableSpot(LotAvailabilityRequestData requestData) {
+        log.info("salam: {}", requestData);
         return database.findFirstByCustomerTypeAndSpotReservationStatusAndLotID(
                 requestData.getCustomerType(),
                 Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED,
