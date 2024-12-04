@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_CVV;
+import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_CVC;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_EXPIRY;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_NUMBER;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.LOT_ID;
@@ -35,7 +35,7 @@ public class AMQPValidationVisitorSenderTest {
     void testSendUpdateValidationForVisitor() {
         // Arrange
         VisitorGateActionDTO visitorGateActionDTO = new VisitorGateActionDTO(
-                PLATE_NUMBER, LOT_ID, SPOT_ID, 3, CC_NUMBER, CC_EXPIRY, CC_CVV, "VISITOR_EXIT"
+                PLATE_NUMBER, LOT_ID, SPOT_ID, 3, CC_NUMBER, CC_EXPIRY, CC_CVC, "VISITOR_EXIT"
         );
         String routingKey = "payment.activity.request";
         String message = translate(visitorGateActionDTO);

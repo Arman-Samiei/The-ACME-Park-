@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
-import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_CVV;
+import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_CVC;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_EXPIRY;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_NUMBER;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.LOT_ID;
@@ -69,7 +69,7 @@ public class AMQPGateExitListenerTest {
                 "hoursOccupied", "3",
                 "ccNumber", CC_NUMBER,
                 "ccExpiry", CC_EXPIRY,
-                "ccCVC", CC_CVV
+                "ccCVC", CC_CVC
         ));
         VisitorGateActionDTO visitorGateActionDTO = new ObjectMapper().readValue(data, VisitorGateActionDTO.class);
 
@@ -89,7 +89,7 @@ public class AMQPGateExitListenerTest {
                 "spotID", SPOT_ID,
                 "ccNumber", CC_NUMBER,
                 "ccExpiry", CC_EXPIRY,
-                "ccCVC", CC_CVV
+                "ccCVC", CC_CVC
         ));
         VoucherGateActionDTO voucherGateActionDTO = new ObjectMapper().readValue(data, VoucherGateActionDTO.class);
 

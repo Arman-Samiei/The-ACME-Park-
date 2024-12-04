@@ -28,7 +28,7 @@ public class AMQPReceiveFinesListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "fines.payment.response"))
-    private void receive(String data, Channel channel) {
+    public void receive(String data, Channel channel) {
         ExistingFinesDTO existingFinesDTO = convertToDTO(data);
 
         log.info("Received fines: {} - channel: {}", existingFinesDTO, channel);

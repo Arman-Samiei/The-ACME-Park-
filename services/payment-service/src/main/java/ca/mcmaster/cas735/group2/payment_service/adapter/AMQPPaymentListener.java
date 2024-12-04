@@ -28,7 +28,7 @@ public class AMQPPaymentListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "payment.activity.request"))
-    private void receive(String data, Channel channel) {
+    public void receive(String data, Channel channel) {
         PaymentRequestDTO paymentRequestDTO = convertToDTO(data);
 
         log.info("Received payment request: {} - channel: {}", paymentRequestDTO, channel);

@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_CVV;
+import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_CVC;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_EXPIRY;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.CC_NUMBER;
 import static ca.mcmaster.cas735.group2.exit_gate.TestUtils.LOT_ID;
@@ -57,7 +57,7 @@ public class ExitGateServiceImplTest {
     public void testReceiveVoucherGateActivity() {
         // Arrange
         VoucherGateActionDTO voucherGateActionDTO = new VoucherGateActionDTO(
-                PLATE_NUMBER, LOT_ID, SPOT_ID, CC_NUMBER, CC_EXPIRY, CC_CVV
+                PLATE_NUMBER, LOT_ID, SPOT_ID, CC_NUMBER, CC_EXPIRY, CC_CVC
         );
 
         // Act
@@ -71,10 +71,10 @@ public class ExitGateServiceImplTest {
     public void testReceiveVisitorGateActivity() {
         // Arrange
         VisitorGateActionDTO visitorGateActionDTO = new VisitorGateActionDTO(
-                PLATE_NUMBER, LOT_ID, SPOT_ID, 3, CC_NUMBER, CC_EXPIRY, CC_CVV, ""
+                PLATE_NUMBER, LOT_ID, SPOT_ID, 3, CC_NUMBER, CC_EXPIRY, CC_CVC, ""
         );
         VisitorGateActionDTO sendingVisitorGateActionDTO = new VisitorGateActionDTO(
-                PLATE_NUMBER, LOT_ID, SPOT_ID, 3, CC_NUMBER, CC_EXPIRY, CC_CVV, "VISITOR_EXIT"
+                PLATE_NUMBER, LOT_ID, SPOT_ID, 3, CC_NUMBER, CC_EXPIRY, CC_CVC, "VISITOR_EXIT"
         );
 
         // Act
