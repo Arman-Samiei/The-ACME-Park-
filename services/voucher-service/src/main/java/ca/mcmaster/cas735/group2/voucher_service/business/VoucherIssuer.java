@@ -57,8 +57,12 @@ public class VoucherIssuer implements VoucherIssuanceRequest, LotResponse {
 
     private void finalizeVoucher(String spotID, VoucherData voucherData) {
         voucherData.setSpotID(spotID);
+        String lotID = voucherData.getLotID();
+        String plateNumber = voucherData.getPlateNumber();
         voucherData.setStatus("issued");
         database.saveAndFlush(voucherData);
+        String response = String.format("Voucher Issued for %s plate number at %s lotID. SpotID: %s", plateNumber, lotID, spotID);
+        voucherIssuanceResponse.sendVoucherIssuanceResponse(response);
     }
 
 }
