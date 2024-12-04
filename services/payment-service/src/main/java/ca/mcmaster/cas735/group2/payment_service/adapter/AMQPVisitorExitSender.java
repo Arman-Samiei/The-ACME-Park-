@@ -32,7 +32,7 @@ public class AMQPVisitorExitSender implements VisitorExit {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(gateActionDTO);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

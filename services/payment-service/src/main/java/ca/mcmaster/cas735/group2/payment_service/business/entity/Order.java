@@ -20,6 +20,7 @@ public class Order {
     private String ccCVC;
     @Column(name = "LOT_ID")
     private String lotID;
+    private String spotID;
     private double amount;
     private PaymentType paymentType;
     private boolean isPaid;
