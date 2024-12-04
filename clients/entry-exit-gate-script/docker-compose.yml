@@ -1,0 +1,16 @@
+
+services:
+  enter-exit-lot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    ports:
+      - "10000:5000"
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
