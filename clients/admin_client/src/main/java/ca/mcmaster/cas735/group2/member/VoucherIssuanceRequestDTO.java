@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 public class VoucherIssuanceRequestDTO {
     String plateNumber;
     String lotID;
+    Integer days;
 
-    public VoucherIssuanceRequestDTO(String plateNumber, String lotID) {
+    public VoucherIssuanceRequestDTO(String plateNumber, String lotID, Integer days) {
         this.plateNumber = plateNumber;
         this.lotID = lotID;
+        this.days = days;
     }
 }

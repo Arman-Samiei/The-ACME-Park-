@@ -12,6 +12,7 @@ public class VoucherIssuanceRequestData {
 
     private String plateNumber;
     private String lotID;
+    private Integer days;
 
     public VoucherData toVoucherData() {
         VoucherData result = new VoucherData();
@@ -19,7 +20,7 @@ public class VoucherIssuanceRequestData {
         result.setLotID(this.lotID);
         result.setStatus("pending");
         result.setSpotID(null);
-        result.setExpirationTime(LocalDateTime.now().plusDays(3));
+        result.setExpirationTime(LocalDateTime.now().plusDays(days));
         return result;
     }
 

@@ -33,8 +33,9 @@ public class VoucherIssuanceRequest {
             while (shouldContinue) {
                 String plateNumber = askForInput(reader, "Enter the plate number:");
                 String lotID = askForInput(reader, "Enter the lot ID:");
+                Integer days = Integer.parseInt(askForInput(reader, "Enter the number of days it is valid:"));
 
-                VoucherIssuanceRequestDTO data = new VoucherIssuanceRequestDTO(plateNumber, lotID);
+                VoucherIssuanceRequestDTO data = new VoucherIssuanceRequestDTO(plateNumber, lotID, days);
                 log.info("Requesting voucher issuance for plate number: {} and lot ID: {}", plateNumber, lotID);
 
                 rabbitTemplate.convertAndSend(exchange, "voucher.issue.request", translate(data));
