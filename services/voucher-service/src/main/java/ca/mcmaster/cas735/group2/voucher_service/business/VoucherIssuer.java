@@ -33,6 +33,13 @@ public class VoucherIssuer implements VoucherIssuanceRequest, LotResponse {
     @Override
     public void issue(VoucherIssuanceRequestData voucherIssuanceRequestData) {
         VoucherData voucherData = voucherIssuanceRequestData.toVoucherData();
+        String plateNumber = voucherIssuanceRequestData.getPlateNumber();
+        VoucherData existingVoucherData = database.findByPlateNumber(plateNumber);
+        if (existingVoucherData != null) {
+            String response = String.format("Voucher for the plate number %s has already been issued", plateNumber);
+            voucherIssuanceResponse.sendVoucherIssuanceResponse(response);
+            return;
+        }
         database.saveAndFlush(voucherData);
         lotRequest.requestSpot(new VoucherLotRequestData(voucherData));
     }
