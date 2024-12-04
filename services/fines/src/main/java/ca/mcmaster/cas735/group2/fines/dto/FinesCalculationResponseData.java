@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 public class FinesCalculationResponseData {
     String id;
     String plateNumber;
-    Double amount;
-    public FinesCalculationResponseData (String id, String plateNumber, Double amount){
+    Double fineAmount;
+    public FinesCalculationResponseData (String id, String plateNumber, Double fineAmount){
         this.id = id;
         this.plateNumber = plateNumber;
-        this.amount = amount;
+        this.fineAmount = fineAmount;
 
     }
 }
