@@ -16,3 +16,7 @@ services:
       interval: 1s
       timeout: 1s
       retries: 30
+
+networks:
+  shared-network:
+    external: true
