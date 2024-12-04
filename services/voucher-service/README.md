@@ -2,9 +2,12 @@
 
 ## Overview
 
-The **Voucher Service** enables the **admin** to issue vouchers for parking. It ensures that only customers with valid permits can access parking lots by performing a validation process.
+The **Voucher Service** enables the **admin** to issue vouchers for parking. It ensures that only customers with valid
+vouchers can access parking lots by performing a validation process.
 
-Managers can issue vouchers that are valid for **3 days**. The service includes a cleanup process to remove expired vouchers from the database.
+Managers can specify the number of days the voucher would be valid.
+
+The service includes a cleanup process to remove expired vouchers from the database.
 
 ## System Architecture
 
