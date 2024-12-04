@@ -4,5 +4,5 @@ import ca.mcmaster.cas735.group2.exit_gate.dto.GateActionDTO;
 
 public interface ValidationResponseHandler {
 
-    void processGateAction(GateActionDTO gateActionDTO);
+    void forwardValidationToGate(GateActionDTO gateActionDTO);
 }
