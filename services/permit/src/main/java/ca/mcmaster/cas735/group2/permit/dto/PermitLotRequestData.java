@@ -12,14 +12,14 @@ public class PermitLotRequestData {
     String lotID;
     String customerType;
     String plateNumber;
-    String spotReservationStatus;
+    String accessPassProcessingStatus;
 
     String requestSender = LOT_SERVICE_REQUEST_SENDER;
 
-    public PermitLotRequestData(PermitData permitData, String spotReservationStatus) {
+    public PermitLotRequestData(PermitData permitData, String accessPassProcessingStatus) {
         this.lotID = permitData.getLotID();
         this.customerType = permitData.getMemberRole();
         this.plateNumber = permitData.getPlateNumber();
-        this.spotReservationStatus = spotReservationStatus;
+        this.accessPassProcessingStatus = accessPassProcessingStatus;
     }
 }

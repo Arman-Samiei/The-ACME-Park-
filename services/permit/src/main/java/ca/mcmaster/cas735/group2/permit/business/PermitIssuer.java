@@ -52,7 +52,7 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         }
         permitData.setExpirationTime(LocalDateTime.now().plusMonths(monthsPurchased));
         database.saveAndFlush(permitData);
-        lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.PENDING_SPOT_RESERVATION_STATUS));
+        lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.ACCESS_PASS_PROCESSING_STATUS_PENDING));
     }
 
     @Override
@@ -83,14 +83,14 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         if (!wasSuccessful) {
             String response = String.format("payment unsuccessful for %s", permitData.getTransponderID());
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
-            lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.NOT_CONFIRMED_SPOT_RESERVATION_STATUS));
+            lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.ACCESS_PASS_PROCESSING_STATUS_REJECTED));
             database.delete(permitData);
             return;
         }
         permitData.setStatus(Constants.ISSUED_PERMIT_STATUS);
         database.saveAndFlush(permitData);
         String response = String.format("permit successfully issued for %s", permitData.getTransponderID());
-        lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.CONFIRMED_SPOT_RESERVATION_STATUS));
+        lotRequest.requestSpot(new PermitLotRequestData(permitData, Constants.ACCESS_PASS_PROCESSING_STATUS_CONFIRMED));
         permitIssuanceResponse.sendPermitIssuanceResponse(response);
 
     }

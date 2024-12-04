@@ -9,9 +9,9 @@ public class Constants {
 
     public static String PAYSLIP_MEMBER_PAYMENT_TYPE = "payslip";
 
-    public static String PENDING_SPOT_RESERVATION_STATUS = "pending";
-    public static String CONFIRMED_SPOT_RESERVATION_STATUS = "confirmed";
-    public static String NOT_CONFIRMED_SPOT_RESERVATION_STATUS = "notConfirmed";
+    public static String ACCESS_PASS_PROCESSING_STATUS_PENDING = "pending";
+    public static String ACCESS_PASS_PROCESSING_STATUS_CONFIRMED = "confirmed";
+    public static String ACCESS_PASS_PROCESSING_STATUS_REJECTED = "rejected";
     public static String PENDING_PERMIT_STATUS = "pending";
     public static String ISSUED_PERMIT_STATUS = "issued";
     public static String STUDENT_MEMBER_ROLE = "student";
