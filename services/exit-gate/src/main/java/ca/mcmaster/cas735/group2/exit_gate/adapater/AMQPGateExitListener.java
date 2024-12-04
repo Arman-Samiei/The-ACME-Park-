@@ -38,9 +38,9 @@ public class AMQPGateExitListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "gate.exit.transponder"))
-    private void receiveTransponder(String data, Channel channel, long tag) {
+    private void receiveTransponder(String data, Channel channel) {
         TransponderGateActionDTO transponderGateActionDTO = convertToTransponderDTO(data);
-        log.info("Received gate action for transponder: {} - with tag: {} - channel: {}", transponderGateActionDTO, tag, channel);
+        log.info("Received gate action for transponder: {} - channel: {}", transponderGateActionDTO, channel);
         transponderGateActivity.receiveTransponderGateActivity(transponderGateActionDTO);
     }
 
@@ -49,9 +49,9 @@ public class AMQPGateExitListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "gate.exit.visitor"))
-    private void receiveVisitor(String data, Channel channel, long tag) {
+    private void receiveVisitor(String data, Channel channel) {
         VisitorGateActionDTO visitorGateActionDTO = convertToVisitorDTO(data);
-        log.info("Received gate action for visitor: {} - with tag: {} - channel: {}", visitorGateActionDTO, tag, channel);
+        log.info("Received gate action for visitor: {} - channel: {}", visitorGateActionDTO, channel);
         visitorGateActivity.receiveVisitorGateActivity(visitorGateActionDTO);
     }
 
@@ -60,9 +60,9 @@ public class AMQPGateExitListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "gate.exit.voucher"))
-    private void receiveVoucher(String data, Channel channel, long tag) {
+    private void receiveVoucher(String data, Channel channel) {
         VoucherGateActionDTO voucherGateActionDTO = convertToVoucherDTO(data);
-        log.info("Received gate action for voucher: {} - with tag: {} - channel: {}", voucherGateActionDTO, tag, channel);
+        log.info("Received gate action for voucher: {} - channel: {}", voucherGateActionDTO, channel);
         voucherGateActivity.receiveVoucherGateActivity(voucherGateActionDTO);
     }
 

@@ -28,10 +28,10 @@ public class AMQPReceiveFinesListener {
             exchange = @Exchange(value = "${app.exchange}",
                     ignoreDeclarationExceptions = "true", type = "topic"),
             key = "fines.payment.response"))
-    private void receive(String data, Channel channel, long tag) {
+    private void receive(String data, Channel channel) {
         ExistingFinesDTO existingFinesDTO = convertToDTO(data);
 
-        log.info("Received fines: {} - with tag: {} - channel: {}", existingFinesDTO, tag, channel);
+        log.info("Received fines: {} - channel: {}", existingFinesDTO, channel);
 
         receiveFines.commitOrderAndRoute(existingFinesDTO);
     }

@@ -109,12 +109,14 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
             ));
         }
 
-        order.setAmount(cumulativePaymentAmount);
-        order.setPaid(true);
-        ordersDatabase.saveAndFlush(order);
+        if (paymentResponseDTO.success()) {
+            order.setAmount(cumulativePaymentAmount);
+            order.setPaid(true);
+            ordersDatabase.saveAndFlush(order);
+        }
 
         if (existingFinesDTO.fineAmount() > 0) {
-            notifyFines.sendFineNotification(new NotifyFineDTO(order.getPlateNumber(), true));
+            notifyFines.sendFineNotification(new NotifyFineDTO(order.getPlateNumber(), paymentResponseDTO.success()));
         }
 
         if (order.getPaymentType() == PaymentType.VISITOR_EXIT) {
