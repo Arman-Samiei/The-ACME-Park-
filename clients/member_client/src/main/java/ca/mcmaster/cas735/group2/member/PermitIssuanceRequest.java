@@ -29,12 +29,9 @@ public class PermitIssuanceRequest {
 
     public void sendData() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-
-            String initialTransponderLetter = generateRandomInitialLetter();
-            String transponderID = generateRandomTransponderID(initialTransponderLetter);
-
-
             while (true) {
+                String initialTransponderLetter = generateRandomInitialLetter();
+                String transponderID = generateRandomTransponderID(initialTransponderLetter);
                 String plateNumber = askForInput(reader, "Enter the plate number:");
                 String lotID = askForInput(reader, "Enter the lot ID:");
                 String firstName = askForInput(reader, "Enter the first name:");
