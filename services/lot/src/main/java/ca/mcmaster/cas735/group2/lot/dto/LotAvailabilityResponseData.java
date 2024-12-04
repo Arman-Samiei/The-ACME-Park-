@@ -17,11 +17,11 @@ public class LotAvailabilityResponseData {
         this.plateNumber = lotData.getPlateNumber();
     }
 
-    public static LotAvailabilityResponseData emptyResponse() {
+    public static LotAvailabilityResponseData emptyResponse(String lotID, String plateNumber) {
         LotData emptyLotData = new LotData();
-        emptyLotData.setLotID("");
+        emptyLotData.setLotID(lotID);
         emptyLotData.setSpotID("");
-        emptyLotData.setPlateNumber("");
+        emptyLotData.setPlateNumber(plateNumber);
         return new LotAvailabilityResponseData(emptyLotData);
     }
 }

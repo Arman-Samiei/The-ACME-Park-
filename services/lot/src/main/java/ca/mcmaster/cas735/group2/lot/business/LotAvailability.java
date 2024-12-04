@@ -65,7 +65,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
-            sendEmptyResponse(Constants.SENDER_RECEIVER_PERMIT);
+            sendEmptyResponse(Constants.SENDER_RECEIVER_PERMIT, requestData.getLotID(), requestData.getPlateNumber());
             return;
         }
 
@@ -89,7 +89,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
-            sendEmptyResponse(Constants.SENDER_RECEIVER_VISITOR);
+            sendEmptyResponse(Constants.SENDER_RECEIVER_VISITOR, requestData.getLotID(), requestData.getPlateNumber());
             return;
         }
 
@@ -101,7 +101,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         LotData availableSpot = findAvailableSpot(requestData);
 
         if (availableSpot == null) {
-            sendEmptyResponse(Constants.SENDER_RECEIVER_VOUCHER);
+            sendEmptyResponse(Constants.SENDER_RECEIVER_VOUCHER, requestData.getLotID(), requestData.getPlateNumber());
             return;
         }
 
@@ -128,7 +128,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         responseSender.sendAvailableSpot(responseData, recipient);
     }
 
-    private void sendEmptyResponse(String recipient) {
-        responseSender.sendAvailableSpot(LotAvailabilityResponseData.emptyResponse(), recipient);
+    private void sendEmptyResponse(String recipient, String lotID, String plateNumber) {
+        responseSender.sendAvailableSpot(LotAvailabilityResponseData.emptyResponse(lotID, plateNumber), recipient);
     }
 }
