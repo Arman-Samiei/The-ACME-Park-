@@ -1,50 +1,38 @@
-INSERT INTO spots (SPOT_ID, LOT_ID, CUSTOMER_TYPE, PLATE_NUMBER) VALUES
--- Lot01 spots
-('SPOT101', 'LOT01', 'student', NULL),
-('SPOT102', 'LOT01', 'student', NULL),
-('SPOT103', 'LOT01', 'faculty', NULL),
-('SPOT104', 'LOT01', 'faculty', NULL),
-('SPOT105', 'LOT01', 'staff', NULL),
-('SPOT106', 'LOT01', 'staff', NULL),
-('SPOT107', 'LOT01', 'visitor', NULL),
-('SPOT108', 'LOT01', 'visitor', NULL),
+-- Insert mock data for LotData
+INSERT INTO spots (SPOT_ID, LOT_ID, CUSTOMER_TYPE, PLATE_NUMBER, IS_SPOT_OCCUPIED, SPOT_RESERVATION_STATUS,
+                   HAS_VOUCHER)
+VALUES
+-- LOT01
+('SPOT101', 'LOT01', 'visitor', 'ABC123', true, 'reserved', true),   -- Visitor with voucher
+('SPOT102', 'LOT01', 'visitor', NULL, false, 'notReserved', false),    -- Free spot for voucher/non-voucher visitors
+('SPOT103', 'LOT01', 'student', 'DEF456', true, 'reserved', false), -- Reserved for student
+('SPOT104', 'LOT01', 'faculty', NULL, false, 'notReserved', false),   -- Free spot for faculty
+('SPOT105', 'LOT01', 'visitor', NULL, false, 'notReserved', false),     -- Free spot for voucher/non-voucher visitors
 
--- Lot02 spots
-('SPOT201', 'LOT02', 'student', NULL),
-('SPOT202', 'LOT02', 'student', NULL),
-('SPOT203', 'LOT02', 'faculty', NULL),
-('SPOT204', 'LOT02', 'faculty', NULL),
-('SPOT205', 'LOT02', 'staff', NULL),
-('SPOT206', 'LOT02', 'staff', NULL),
-('SPOT207', 'LOT02', 'visitor', NULL),
-('SPOT208', 'LOT02', 'visitor', NULL),
+-- LOT02
+('SPOT201', 'LOT02', 'staff', 'GHI789', false, 'reserved', false),   -- Reserved for staff
+('SPOT202', 'LOT02', 'visitor', NULL, false, 'notReserved', false),    -- Free spot for voucher/non-voucher visitors
+('SPOT203', 'LOT02', 'visitor', 'JKL012', false, 'reserved', true),   -- Reserved for visitor with voucher
+('SPOT204', 'LOT02', 'faculty', 'MNO345', true, 'reserved', false), -- Reserved for faculty
+('SPOT205', 'LOT02', 'visitor', NULL, false, 'notReserved', false),    -- Free spot for voucher/non-voucher visitors
 
--- Lot03 spots
-('SPOT301', 'LOT03', 'student', NULL),
-('SPOT302', 'LOT03', 'student', NULL),
-('SPOT303', 'LOT03', 'faculty', NULL),
-('SPOT304', 'LOT03', 'faculty', NULL),
-('SPOT305', 'LOT03', 'staff', NULL),
-('SPOT306', 'LOT03', 'staff', NULL),
-('SPOT307', 'LOT03', 'visitor', NULL),
-('SPOT308', 'LOT03', 'visitor', NULL),
+-- LOT03
+('SPOT301', 'LOT03', 'visitor', 'PQR678', true, 'reserved', true),   -- Visitor with voucher
+('SPOT302', 'LOT03', 'student', NULL, false, 'notReserved', false),   -- Free spot for student
+('SPOT303', 'LOT03', 'faculty', 'STU901', true, 'reserved', false), -- Reserved for faculty
+('SPOT304', 'LOT03', 'visitor', NULL, false, 'notReserved', false),     -- Free spot for voucher/non-voucher visitors
+('SPOT305', 'LOT03', 'staff', 'VWX234', true, 'reserved', false),   -- Reserved for staff
 
--- Lot04 spots
-('SPOT401', 'LOT04', 'student', NULL),
-('SPOT402', 'LOT04', 'student', NULL),
-('SPOT403', 'LOT04', 'faculty', NULL),
-('SPOT404', 'LOT04', 'faculty', NULL),
-('SPOT405', 'LOT04', 'staff', NULL),
-('SPOT406', 'LOT04', 'staff', NULL),
-('SPOT407', 'LOT04', 'visitor', NULL),
-('SPOT408', 'LOT04', 'visitor', NULL),
+-- LOT04
+('SPOT401', 'LOT04', 'visitor', 'YZA567', true, 'reserved', false),  -- Visitor without voucher
+('SPOT402', 'LOT04', 'faculty', NULL, false, 'notReserved', false),   -- Free spot for faculty
+('SPOT403', 'LOT04', 'visitor', NULL, false, 'notReserved', false),    -- Free spot for voucher/non-voucher visitors
+('SPOT404', 'LOT04', 'student', 'BCD890', false, 'reserved', false), -- Reserved for student
+('SPOT405', 'LOT04', 'visitor', 'EFG123', false, 'reserved', true),   -- Visitor with voucher
 
--- Lot05 spots
-('SPOT501', 'LOT05', 'student', NULL),
-('SPOT502', 'LOT05', 'student', NULL),
-('SPOT503', 'LOT05', 'faculty', NULL),
-('SPOT504', 'LOT05', 'faculty', NULL),
-('SPOT505', 'LOT05', 'staff', NULL),
-('SPOT506', 'LOT05', 'staff', NULL),
-('SPOT507', 'LOT05', 'visitor', NULL),
-('SPOT508', 'LOT05', 'visitor', NULL);
+-- LOT05
+('SPOT501', 'LOT05', 'staff', NULL, false, 'notReserved', false),     -- Free spot for staff
+('SPOT502', 'LOT05', 'visitor', 'HIJ456', true, 'reserved', true),   -- Visitor with voucher
+('SPOT503', 'LOT05', 'faculty', 'KLM789', false, 'reserved', false), -- Reserved for faculty
+('SPOT504', 'LOT05', 'visitor', NULL, false, 'notReserved', false),    -- Free spot for voucher/non-voucher visitors
+('SPOT505', 'LOT05', 'student', 'NOP012', false, 'reserved', false); -- Reserved for student
