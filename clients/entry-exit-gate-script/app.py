@@ -5,7 +5,7 @@ import string
 import time
 from threading import Thread
 
-rabbitmq_host = 'rabbitmq'
+rabbitmq_host = 'localhost'
 rabbitmq_port = 5672
 rabbitmq_user = 'admin'
 rabbitmq_password = 'cas735'
