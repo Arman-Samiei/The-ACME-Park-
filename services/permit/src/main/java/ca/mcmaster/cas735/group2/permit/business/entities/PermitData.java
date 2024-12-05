@@ -39,6 +39,7 @@ public class PermitData {
 
     private String ccExpiry;
 
+    @Column(name = "CC_CVC")
     private String ccCVC;
 
     private Integer monthsPurchased;
