@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 @Service
 @Slf4j
@@ -70,20 +72,20 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
             return;
         }
 
-        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_PENDING, requestData.getPlateNumber());
+        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_PENDING, requestData.getPlateNumber(), getHasVoucherField(requestData.getRequestSender()));
         sendSpotResponse(availableSpot, Constants.SENDER_RECEIVER_PERMIT);
     }
 
     private void handleConfirmedRequest(LotAvailabilityRequestData requestData) {
         String plateNumber = requestData.getPlateNumber();
         LotData spot = database.findByPlateNumber(plateNumber);
-        updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_RESERVED, plateNumber);
+        updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_RESERVED, plateNumber, getHasVoucherField(requestData.getRequestSender()));
     }
 
     private void handleNotConfirmedRequest(LotAvailabilityRequestData requestData) {
         String plateNumber = requestData.getPlateNumber();
         LotData spot = database.findByPlateNumber(plateNumber);
-        updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED, plateNumber);
+        updateSpot(spot, Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED, plateNumber, getHasVoucherField(requestData.getRequestSender()));
     }
 
     private void handleVisitorRequest(LotAvailabilityRequestData requestData) {
@@ -95,7 +97,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
             return;
         }
 
-        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber());
+        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber(), getHasVoucherField(requestData.getRequestSender()));
         sendSpotResponse(availableSpot, Constants.SENDER_RECEIVER_VISITOR);
     }
 
@@ -107,7 +109,7 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
             return;
         }
 
-        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber());
+        updateSpot(availableSpot, Constants.SPOT_RESERVATION_STATUS_RESERVED, requestData.getPlateNumber(), getHasVoucherField(requestData.getRequestSender()));
         sendSpotResponse(availableSpot, Constants.SENDER_RECEIVER_VOUCHER);
     }
 
@@ -120,9 +122,10 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
         );
     }
 
-    private void updateSpot(LotData spot, String status, String plateNumber) {
+    private void updateSpot(LotData spot, String status, String plateNumber, boolean hasVoucher) {
         spot.setSpotReservationStatus(status);
         spot.setPlateNumber(plateNumber);
+        spot.setHasVoucher(hasVoucher);
         database.saveAndFlush(spot);
     }
 
@@ -133,5 +136,9 @@ public class LotAvailability implements LotAvailabilityCheckRequest {
 
     private void sendEmptyResponse(String recipient, String lotID, String plateNumber) {
         responseSender.sendAvailableSpot(LotAvailabilityResponseData.emptyResponse(lotID, plateNumber), recipient);
+    }
+
+    private boolean getHasVoucherField(String requestSender) {
+        return Objects.equals(requestSender, Constants.SENDER_RECEIVER_VOUCHER);
     }
 }

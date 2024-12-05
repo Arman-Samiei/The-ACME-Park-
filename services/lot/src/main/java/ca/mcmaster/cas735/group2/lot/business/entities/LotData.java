@@ -17,8 +17,7 @@ public class LotData {
     String lotID;
     String customerType;
     String plateNumber;
-    @Column(columnDefinition = "BOOLEAN DEFAULT false")
     Boolean isSpotOccupied;
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'notReserved'")
     String spotReservationStatus;
+    Boolean hasVoucher;
 }
