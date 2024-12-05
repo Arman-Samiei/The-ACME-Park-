@@ -4,26 +4,20 @@ This serves as a single quick reference for starting the entire app. It will lau
 necessary services:
 - RabbitMQ (in [infrastructure/message-broker](../infrastructure/message-broker))
 - Eureka Registry (in [infrastructure/service-registry](../infrastructure/service-registry))
-- Parking Controller (in [services/p-controller](../services/p-controller))
-
-And it will also start the client, but it has to be manually started using a profile.
+- All services (in [services](../services))
 
 ###  Starting Server and Client
-1. In the root folder run the following command:
-    ```bash
-    mvn clean package
-    ```
+1. Create shared network for services
+   ```bash
+   docker network create shared-network
+   ```
 2. The rest of the commands are in the `deployment` folder. Run the following commands:
     ```bash
-    docker compose --profile manual build --no-cache
+    docker compose build
     docker compose up -d
     ```
-3. To run the client:
+3. To stop the services:
     ```bash
-    docker compose --profile manual up -d
-    ```
-4. To stop the services:
-    ```bash
-    docker compose --profile manual down
+    docker compose down
     ```
 View the logs in the respective images.
