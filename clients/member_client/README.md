@@ -22,7 +22,7 @@ the following data:
 - **Last name**
 - **Employee ID**
 - **Lot ID**
-- **Payment type** (e.g., payslip or bank)
+- **Payment type** (payslip or bank)
 - **Credit card number**
 - **Credit card expiry date**
 - **Credit card CVC**
