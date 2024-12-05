@@ -25,8 +25,9 @@ public class LotOccupation implements LotOccupationStatusUpdate {
     public void updateSpotOccupationStatus(LotOccupationStatusUpdateData lotOccupationStatusUpdateData) {
         LotData lotData = database.findBySpotID(lotOccupationStatusUpdateData.getSpotID());
         String customerType = lotData.getCustomerType();
-        lotData.setIsSpotOccupied(lotOccupationStatusUpdateData.getIsSpotOccupied());
-        if (!lotData.getHasVoucher() && Objects.equals(customerType, Constants.VISITOR_CUSTOMER_TYPE))
+        boolean isSpotOccupied = lotOccupationStatusUpdateData.getIsSpotOccupied();
+        lotData.setIsSpotOccupied(isSpotOccupied);
+        if (!lotData.getHasVoucher() && Objects.equals(customerType, Constants.VISITOR_CUSTOMER_TYPE) && !isSpotOccupied)
             lotData.setSpotReservationStatus(Constants.SPOT_RESERVATION_STATUS_NOT_RESERVED);
         database.saveAndFlush(lotData);
     }
