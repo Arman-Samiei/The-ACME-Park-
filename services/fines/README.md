@@ -21,6 +21,15 @@ Additionally, it allows **parking officers** to issue fines for violations withi
   number.
 - **Fine Issuance**: Enables officers to issue fines for parking violations or other offenses.
 
+## REST interface
+
+The service uses REST interfaces so that the officer can issue fines.
+
+All interfaces are exposed using Swagger:
+
+- Web UI: [http://localhost:9086/swagger-ui.html](http://localhost:9086/swagger-ui.html)
+- API Contract: [http://localhost:9086/v3/api-docs](http://localhost:9086/v3/api-docs)
+
 ## Usage
 
 Refer to README in [deployment](../../deployment/README.md) for instructions on how to run the service

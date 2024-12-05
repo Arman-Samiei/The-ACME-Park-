@@ -32,6 +32,15 @@ performance.
 - **Administrative Statistics Access**: REST endpoints allow the system administrator to retrieve some statistics about
   lot utilization and spot statuses.
 
+## REST interface
+
+The service uses REST interfaces to provide statistics about the lots to admin.
+
+All interfaces are exposed using Swagger:
+
+- Web UI: [http://localhost:9082/swagger-ui.html](http://localhost:9082/swagger-ui.html)
+- API Contract: [http://localhost:9082/v3/api-docs](http://localhost:9082/v3/api-docs)
+
 ## Usage
 
 Refer to README in [deployment](../../deployment/README.md) for instructions on how to run the service
