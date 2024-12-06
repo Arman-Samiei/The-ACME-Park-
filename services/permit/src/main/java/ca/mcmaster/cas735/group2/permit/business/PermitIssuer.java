@@ -54,7 +54,7 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
         }
         PermitData existingPermitData = database.findByPlateNumber(plateNumber);
         if (existingPermitData != null) {
-            String response = String.format("Permit for the plateNumber %s has already been issued", transponderID);
+            String response = String.format("Permit for the plateNumber %s has already been issued", plateNumber);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
             return;
         }
