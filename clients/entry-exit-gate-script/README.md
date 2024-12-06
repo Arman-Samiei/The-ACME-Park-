@@ -55,13 +55,13 @@ There is existing mock data in the database already:
 +----------+--------------+--------+
 | FINES_ID | PLATE_NUMBER | AMOUNT |
 +----------+--------------+--------+
-| 1        | DEF456       | 50.00  |  -- Fine for student
-| 2        | MNO345       | 75.00  |  -- Fine for faculty
-| 3        | VWX234       | 30.00  |  -- Fine for staff
-| 4        | ABC123       | 100.00 |  -- Fine for visitor with voucher
-| 5        | JKL012       | 80.00  |  -- Fine for visitor with voucher
-| 6        | YZA567       | 60.00  |  -- Fine for visitor without voucher
-| 7        | HIJ456       | 90.00  |  -- Fine for visitor without voucher
+| 70001    | DEF456       | 50.00  |  -- Fine for student
+| 70002    | MNO345       | 75.00  |  -- Fine for faculty
+| 70003    | VWX234       | 30.00  |  -- Fine for staff
+| 70004    | ABC123       | 100.00 |  -- Fine for visitor with voucher
+| 70005    | JKL012       | 80.00  |  -- Fine for visitor with voucher
+| 70006    | YZA567       | 60.00  |  -- Fine for visitor without voucher
+| 70007    | HIJ456       | 90.00  |  -- Fine for visitor without voucher
 +----------+--------------+--------+
 ```
 
