@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Table(name = "fines")
 public class FinesData {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "FINES_ID")
     Long finesID;
