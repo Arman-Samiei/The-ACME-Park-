@@ -44,7 +44,19 @@ public class ExitGateServiceImpl implements TransponderGateActivity, VisitorGate
 
     @Override
     public void receiveVoucherGateActivity(VoucherGateActionDTO voucherGateActionDTO) {
-        validateVoucherFines.sendVoucherValidationForFines(voucherGateActionDTO);
+        // Treat as visitor exit with 0 hours occupied
+        VisitorGateActionDTO voucherAsVisitorDTO = new VisitorGateActionDTO(
+                voucherGateActionDTO.plateNumber(),
+                voucherGateActionDTO.lotID(),
+                voucherGateActionDTO.spotID(),
+                0,
+                voucherGateActionDTO.ccNumber(),
+                voucherGateActionDTO.ccExpiry(),
+                voucherGateActionDTO.ccCVC(),
+                "VISITOR_EXIT"
+        );
+
+        validateVoucherFines.sendVoucherValidationForFines(voucherAsVisitorDTO);
     }
 
     @Override

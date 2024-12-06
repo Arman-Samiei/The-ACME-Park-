@@ -95,6 +95,14 @@ public class PaymentServiceImpl implements PaymentActivity, ReceiveFines {
         double existingPayment = order.getAmount();
         double cumulativePaymentAmount = existingPayment + existingFinesDTO.fineAmount();
 
+        // If there is nothing to pay don't make any request
+        if (order.getPaymentType().equals(PaymentType.VISITOR_EXIT) && cumulativePaymentAmount == 0) {
+            visitorExit.processVisitorExit(new GateActionDTO(true, order.getLotID(), order.getSpotID()));
+            order.setPaid(true);
+            ordersDatabase.saveAndFlush(order);
+            return;
+        }
+
         PaymentResponseDTO paymentResponseDTO;
         if (order.getStaffId() == null) {
             paymentResponseDTO = bankConnection.processBankPayment(new OutgoingBankPaymentRequestDTO(

@@ -1,6 +1,7 @@
 package ca.mcmaster.cas735.group2.exit_gate.adapter;
 
 import ca.mcmaster.cas735.group2.exit_gate.adapater.AMQPValidateVoucherFinesSender;
+import ca.mcmaster.cas735.group2.exit_gate.dto.VisitorGateActionDTO;
 import ca.mcmaster.cas735.group2.exit_gate.dto.VoucherGateActionDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,14 +34,14 @@ public class AMQPValidateVoucherFinesSenderTest {
     @Test
     void testSendValidationForVoucherFines() {
         // Arrange
-        VoucherGateActionDTO voucherGateActionDTO = new VoucherGateActionDTO(
-                PLATE_NUMBER, LOT_ID, SPOT_ID, CC_NUMBER, CC_EXPIRY, CC_CVC
+        VisitorGateActionDTO voucherAsVisitorDTO = new VisitorGateActionDTO(
+                PLATE_NUMBER, LOT_ID, SPOT_ID, 0, CC_NUMBER, CC_EXPIRY, CC_CVC, "VISITOR_EXIT"
         );
         String routingKey = "payment.activity.request";
-        String message = translate(voucherGateActionDTO);
+        String message = translate(voucherAsVisitorDTO);
 
         // Act
-        amqpValidateVoucherFinesSender.sendVoucherValidationForFines(voucherGateActionDTO);
+        amqpValidateVoucherFinesSender.sendVoucherValidationForFines(voucherAsVisitorDTO);
 
         // Assert
         verify(rabbitTemplate, times(1)).convertAndSend(any(), eq(routingKey), eq(message));

@@ -146,6 +146,24 @@ public class PaymentServiceImplTest {
     }
 
     @Test
+    public void testCommitVisitorOrderAndRouteWithNoPayment() {
+        // Arrange
+        ExistingFinesDTO existingFinesDTO = new ExistingFinesDTO(ORDER_ID, PLATE_NUMBER, 0);
+        Order existingOrder = getExistingVisitorOrder();
+        existingOrder.setAmount(0);
+        when(ordersDatabase.findById(existingFinesDTO.id())).thenReturn(Optional.of(existingOrder));
+
+        // Act
+        paymentService.commitOrderAndRoute(existingFinesDTO);
+
+        // Assert
+        verify(bankConnection, times(0)).processBankPayment(any());
+        verify(ordersDatabase, times(1)).saveAndFlush(existingOrder);
+        verify(notifyFines, times(0)).sendFineNotification(any());
+        verify(visitorExit, times(1)).processVisitorExit(new GateActionDTO(true, LOT_ID, SPOT_ID));
+    }
+
+    @Test
     public void testCommitPermitOrderAndRoute_BankPayment() {
         // Arrange
         ExistingFinesDTO existingFinesDTO = new ExistingFinesDTO(ORDER_ID, PLATE_NUMBER, 105.50);

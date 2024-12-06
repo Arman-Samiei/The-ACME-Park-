@@ -59,12 +59,15 @@ public class ExitGateServiceImplTest {
         VoucherGateActionDTO voucherGateActionDTO = new VoucherGateActionDTO(
                 PLATE_NUMBER, LOT_ID, SPOT_ID, CC_NUMBER, CC_EXPIRY, CC_CVC
         );
+        VisitorGateActionDTO voucherAsVisitorDTO = new VisitorGateActionDTO(
+                PLATE_NUMBER, LOT_ID, SPOT_ID, 0, CC_NUMBER, CC_EXPIRY, CC_CVC, "VISITOR_EXIT"
+        );
 
         // Act
         exitGateService.receiveVoucherGateActivity(voucherGateActionDTO);
 
         // Assert
-        verify(validateVoucherFines, times(1)).sendVoucherValidationForFines(voucherGateActionDTO);
+        verify(validateVoucherFines, times(1)).sendVoucherValidationForFines(voucherAsVisitorDTO);
     }
 
     @Test

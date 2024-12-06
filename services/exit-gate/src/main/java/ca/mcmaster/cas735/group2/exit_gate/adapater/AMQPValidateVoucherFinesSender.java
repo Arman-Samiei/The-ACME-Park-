@@ -1,5 +1,6 @@
 package ca.mcmaster.cas735.group2.exit_gate.adapater;
 
+import ca.mcmaster.cas735.group2.exit_gate.dto.VisitorGateActionDTO;
 import ca.mcmaster.cas735.group2.exit_gate.dto.VoucherGateActionDTO;
 import ca.mcmaster.cas735.group2.exit_gate.ports.ValidateVoucherFines;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,15 +25,15 @@ public class AMQPValidateVoucherFinesSender implements ValidateVoucherFines {
     private String exchange;
 
     @Override
-    public void sendVoucherValidationForFines(VoucherGateActionDTO voucherGateActionDTO) {
-        log.info("Checking fines for voucher {}", voucherGateActionDTO);
-        rabbitTemplate.convertAndSend(exchange, "payment.activity.request", translate(voucherGateActionDTO));
+    public void sendVoucherValidationForFines(VisitorGateActionDTO voucherAsVisitorDTO) {
+        log.info("Checking fines for voucher {}", voucherAsVisitorDTO);
+        rabbitTemplate.convertAndSend(exchange, "payment.activity.request", translate(voucherAsVisitorDTO));
     }
 
-    private String translate(VoucherGateActionDTO voucherGateActionDTO) {
+    private String translate(VisitorGateActionDTO voucherAsVisitorDTO) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.writeValueAsString(voucherGateActionDTO);
+            return mapper.writeValueAsString(voucherAsVisitorDTO);
         } catch (Exception e){
             throw new RuntimeException(e);
         }
