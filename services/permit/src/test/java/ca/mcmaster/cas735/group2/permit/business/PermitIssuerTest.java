@@ -65,7 +65,7 @@ class PermitIssuerTest {
 
     @Test
     void issue_shouldSavePermitAndRequestSpot() {
-        when(mockDatabase.findById("s12345")).thenReturn(Optional.empty());
+        when(mockDatabase.findByPlateNumber("PLATE123")).thenReturn(null);
 
         permitIssuer.issue(testRequestData);
 
@@ -76,7 +76,7 @@ class PermitIssuerTest {
 
     @Test
     void issue_shouldNotSaveDuplicatePermit() {
-        when(mockDatabase.findById("s12345")).thenReturn(Optional.of(testPermitData));
+        when(mockDatabase.findByPlateNumber("PLATE123")).thenReturn(testPermitData);
 
         permitIssuer.issue(testRequestData);
 

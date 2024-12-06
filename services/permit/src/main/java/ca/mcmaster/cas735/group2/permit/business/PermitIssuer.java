@@ -41,6 +41,7 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
     @Override
     public void issue(PermitIssuanceRequestData permitIssuanceRequestData) {
         PermitData permitData = permitIssuanceRequestData.asPermitData();
+        String plateNumber = permitIssuanceRequestData.getPlateNumber();
         String memberPaymentType = permitData.getMemberPaymentType();
         String memberRole = permitData.getMemberRole();
         String transponderID = permitData.getTransponderID();
@@ -51,9 +52,9 @@ public class PermitIssuer implements PermitIssuanceRequest, LotResponse, Payment
             log.debug(response);
             return;
         }
-        Optional<PermitData> existingPermitData = database.findById(transponderID);
-        if (existingPermitData.isPresent()) {
-            String response = String.format("Permit for the transponderID %s has already been issued", transponderID);
+        PermitData existingPermitData = database.findByPlateNumber(plateNumber);
+        if (existingPermitData != null) {
+            String response = String.format("Permit for the plateNumber %s has already been issued", transponderID);
             permitIssuanceResponse.sendPermitIssuanceResponse(response);
             return;
         }
