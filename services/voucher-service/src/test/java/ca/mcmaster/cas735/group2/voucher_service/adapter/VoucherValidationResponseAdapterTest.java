@@ -29,7 +29,7 @@ class VoucherValidationResponseAdapterTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        responseData = new VoucherValidationResponseData(true, "LOT42");
+        responseData = new VoucherValidationResponseData(true, "LOT42", "SPOT42");
     }
 
     @Test

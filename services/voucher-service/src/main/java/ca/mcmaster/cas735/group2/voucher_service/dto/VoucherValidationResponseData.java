@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @Data
 public class VoucherValidationResponseData {
     private Boolean shouldOpen;
-
     private String lotID;
+    private String spotID;
 
-    public VoucherValidationResponseData(boolean isValid, String lotID) {
+    public VoucherValidationResponseData(boolean isValid, String lotID, String spotID) {
         this.shouldOpen = isValid;
         this.lotID = lotID;
+        this.spotID = spotID;
     }
 }
