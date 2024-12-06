@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,10 +39,12 @@ class PermitValidatorTest {
         validRequestData.setPlateNumber("PLATE123");
         validRequestData.setLotID("LOT42");
 
+
         validPermitData = new PermitData();
         validPermitData.setPlateNumber("PLATE123");
         validPermitData.setLotID("LOT42");
         validPermitData.setStatus(Constants.ISSUED_PERMIT_STATUS);
+        validPermitData.setSpotID("SPOT1");
     }
 
     @Test
@@ -56,6 +59,7 @@ class PermitValidatorTest {
         PermitValidationResponseData response = captor.getValue();
         assertEquals(true, response.getShouldOpen());
         assertEquals("LOT42", response.getLotID());
+        assertEquals("SPOT1", response.getSpotID());
     }
 
     @Test
@@ -71,6 +75,7 @@ class PermitValidatorTest {
         PermitValidationResponseData response = captor.getValue();
         assertEquals(false, response.getShouldOpen());
         assertEquals("LOT42", response.getLotID());
+        assertNull(response.getSpotID());
     }
 
     @Test
@@ -86,6 +91,7 @@ class PermitValidatorTest {
         PermitValidationResponseData response = captor.getValue();
         assertEquals(false, response.getShouldOpen());
         assertEquals("LOT42", response.getLotID());
+        assertNull(response.getSpotID());
     }
 
     @Test
@@ -100,5 +106,6 @@ class PermitValidatorTest {
         PermitValidationResponseData response = captor.getValue();
         assertEquals(false, response.getShouldOpen());
         assertEquals("LOT42", response.getLotID());
+        assertNull(response.getSpotID());
     }
 }
