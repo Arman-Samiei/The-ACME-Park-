@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 class VoucherValidatorTest {
@@ -39,6 +40,7 @@ class VoucherValidatorTest {
         VoucherData voucherData = new VoucherData();
         voucherData.setPlateNumber("PLATE123");
         voucherData.setLotID("LOT42");
+        voucherData.setSpotID("SPOT1");
 
         when(mockDatabase.findByPlateNumber("PLATE123")).thenReturn(voucherData);
 
@@ -50,6 +52,7 @@ class VoucherValidatorTest {
         VoucherValidationResponseData capturedResponse = responseCaptor.getValue();
         assertEquals(true, capturedResponse.getShouldOpen());
         assertEquals("LOT42", capturedResponse.getLotID());
+        assertEquals("SPOT1", capturedResponse.getSpotID());
     }
 
     @Test
@@ -68,6 +71,7 @@ class VoucherValidatorTest {
         VoucherValidationResponseData capturedResponse = responseCaptor.getValue();
         assertEquals(false, capturedResponse.getShouldOpen());
         assertEquals("LOT42", capturedResponse.getLotID());
+        assertNull(capturedResponse.getSpotID());
     }
 
     @Test
@@ -90,5 +94,6 @@ class VoucherValidatorTest {
         VoucherValidationResponseData capturedResponse = responseCaptor.getValue();
         assertEquals(false, capturedResponse.getShouldOpen());
         assertEquals("LOT42", capturedResponse.getLotID());
+        assertNull(capturedResponse.getSpotID());
     }
 }
