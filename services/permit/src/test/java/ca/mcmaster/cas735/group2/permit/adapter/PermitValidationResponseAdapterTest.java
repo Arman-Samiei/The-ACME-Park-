@@ -32,7 +32,7 @@ class PermitValidationResponseAdapterTest {
 
     @Test
     void sendValidationResult_shouldSendCorrectMessage() throws Exception {
-        PermitValidationResponseData responseData = new PermitValidationResponseData(true, "LOT42");
+        PermitValidationResponseData responseData = new PermitValidationResponseData(true, "LOT42", "SPOT101");
         String expectedJson = new ObjectMapper().writeValueAsString(responseData);
 
         ArgumentCaptor<String> messageCaptor = ArgumentCaptor.forClass(String.class);
@@ -44,7 +44,7 @@ class PermitValidationResponseAdapterTest {
 
     @Test
     void translate_shouldReturnCorrectJson() throws Exception {
-        PermitValidationResponseData responseData = new PermitValidationResponseData(true, "LOT42");
+        PermitValidationResponseData responseData = new PermitValidationResponseData(true, "LOT42", "SPOT101");
         Method translateMethod = PermitValidationResponseAdapter.class.getDeclaredMethod("translate", PermitValidationResponseData.class);
         translateMethod.setAccessible(true);
 

@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 public class PermitValidationResponseData {
     private Boolean shouldOpen;
     private String lotID;
+    private String spotID;
 
 
-    public PermitValidationResponseData(boolean shouldOpen, String lotID) {
+    public PermitValidationResponseData(boolean shouldOpen, String lotID, String spotID) {
         this.shouldOpen = shouldOpen;
         this.lotID = lotID;
+        this.spotID = spotID;
     }
 }
